@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>My Trello</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+	<nav class="navbar navbar-light bg-light" id="trelloNavBar">
+	  <div class="col d-flex justify-content-start">
+		  <a class="navbar-brand" href="#" id="myTrelloLogo">My Trello</a>
+	   </div>
+	   <div class="col d-none justify-content-center" id="boardHeaderLabel">
+		  <h4 class="navbar-brand" id="boardHeaderName">My Trello</h4>
+	   </div>
+	   <div class="col d-flex justify-content-end">
+		  <form class="form-inline" id="createBoard">
+		    <input class="form-control mr-sm-2" type="create" placeholder="Board Name" aria-label="Board Name" id="createBoardInput">
+		    <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="createBoardBtn">Create</button>
+		  </form>
+		  <form class="form-inline d-none" id="createList">
+		    <input class="form-control mr-sm-2" type="create" placeholder="List name" aria-label="List Name" id="createListInput">
+		    <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="createListBtn">Create</button>
+		  </form>
+	    </div>
+	</nav>
+	<div id="boardList" class="container d-flex flex-wrap flex-column flex-md-row">	
+	</div>
+	<div id="boardDetails" class="d-none">
+	</div>
+	<footer class="d-flex align-items-center justify-content-center setBackground">
+		<ul class="my-3">
+			<li><a href="http://www.facebook.com"><img src="img/social-1_logo-facebook.svg" alt="Facebook"></a></li>
+			<li><a href="https://evernote.com/"><img src="img/social-1_logo-evernote.svg" alt="Evernote"></a></li>
+			<li><a href="https://plus.google.com"><img src="img/social-1_logo-google-plus.svg" alt="Google+"></a></li>
+			<li><a href="https://www.instagram.com"><img src="img/social-1_logo-instagram.svg" alt="Instagram"></a></li>
+		</ul>
+	</footer>
+<script type="text/javascript" src="bundle.js"></script></body>
+</html>

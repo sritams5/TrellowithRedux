@@ -1,0 +1,8 @@
+{
+  "boards": [
+    {
+      "data": "[{\"name\":\"board 2\",\"lists\":[{\"name\":\"task 1\",\"cards\":[{\"name\":\"card 1 1\"}]},{\"name\":\"task 2\",\"cards\":[{\"name\":\"card 2\"},{\"name\":\"card 2-2\"}]}]},{\"name\":\"board 1 upd\",\"lists\":[{\"name\":\"test 1\",\"cards\":[{\"name\":\"q 2\"}]},{\"name\":\"test 2\",\"cards\":[]},{\"name\":\"test 3 upd\",\"cards\":[{\"name\":\"q 1\"},{\"name\":\"card 1\"}]}]}]",
+      "id": 1
+    }
+  ]
+}
