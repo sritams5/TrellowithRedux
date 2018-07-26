@@ -1,16 +1,49 @@
-.m_boardsBox{
-	min-width: 250px;
+.card{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+a:hover {
+    color: #721c24;
+    text-decoration: none;
+}
+a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.modal-content{
+    background-image: url('/img/modalback.jpg');
+}
+.m_boardsBox_odd{
+	min-width: 200px;
     margin: 10px;
-    min-height: 100px;
+    min-height: 200px;
     text-align: center;
-    background-color: $boardBgColor;
+		background-image: url('/img/back3.gif');
     color: $boardFontColor;
     border: $boardCardBorder solid $boardBorderColor;
     font-weight: bold;
     height: 100%;
     max-width: 400px;
 }
-
+.m_boardsBox_even{
+	min-width: 200px;
+    margin: 10px;
+    min-height: 200px;
+    text-align: center;
+		background-image: url('/img/back4.jpg');
+    color: $boardFontColor;
+    border: $boardCardBorder solid $boardBorderColor;
+    font-weight: bold;
+    height: 100%;
+    max-width: 400px;
+}
 .m_listBox{
 	min-width: 300px;
     margin: 13px;
@@ -18,7 +51,7 @@
     height: 100%;
 }
 .m_card{
-	background-color: white;
+	background-color: $boardBgAquaColor;
     padding: 7px 3px 7px 7px;
     margin: 7px;
 }
@@ -36,16 +69,16 @@
 .m_smallicon{
 	width: .75rem;
 	height: .75rem;
-	margin: 0px .2rem;	
+	margin: 0px .2rem;
 }
 .m_boardIcon{
     padding: 0px;
-    background-color: $boardBgColor;
+    background-color: $boardBgTranspColor;
     border: 0px;
 }
 .m_listIcon{
 	padding: 0px;
-    background-color: transparent;
+    background-color: $boardBgTranspColor;
     border: 0px;
     margin-right: 3px;
 }
@@ -55,9 +88,9 @@
 .m_icon:hover{
 	background-color: $boardBgColor;
 }
-.m_setbgcolor{
-	background-color:  $backgroundColor;
-}
+// .m_setbgcolor{
+// 	background-color:  $backgroundColor;
+// }
 .form-inline{
 	flex-flow: nowrap;
 }

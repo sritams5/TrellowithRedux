@@ -7,6 +7,9 @@ function showBoardList() {
 
 function createBoard() {
   const createBoardInput = document.getElementById('createBoardInput');
+  $('#boardModal').modal('hide');
+  $('body').removeClass('modal-open');
+  $('.modal-backdrop').remove();
   if (createBoardInput.value) {
     store.dispatch({ type: 'ADD_BOARD', name: createBoardInput.value });
   }
@@ -23,6 +26,9 @@ function createBoardKey(event) {
 
 function createList() {
   const createListInput = document.getElementById('createListInput');
+  $('#listModal').modal('hide');
+  $('body').removeClass('modal-open');
+  $('.modal-backdrop').remove();
   if (createListInput.value) {
     store.dispatch({ type: 'ADD_LIST', name: createListInput.value });
   }

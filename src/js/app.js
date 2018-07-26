@@ -1,7 +1,11 @@
 import '../scss/app.scss';
+import '../img/logo.png';
 import '../img/add.png';
 import '../img/delete.png';
 import '../img/edit.png';
+import '../img/back3.gif'
+import '../img/back4.jpg'
+import '../img/modalback.jpg'
 import '../img/social-1_logo-evernote.svg';
 import '../img/social-1_logo-facebook.svg';
 import '../img/social-1_logo-google-plus.svg';
@@ -16,14 +20,3 @@ import './board/controller';
 import './list/view';
 import './list/controller';
 import './service';
-
-// const sortable = require('jquery-ui/ui/widgets/sortable');
-// require('jquery-ui/ui/disable-selection');
-// import './controller';
-// import './model';
-// import './view';
-
-// console.log('I am ready');
-
-
-// console.log(boardsDiv.sortable())

@@ -1,9 +1,14 @@
-nav{
-	background-color: #026aa7;
+.navbar{
+	background-color: rgba(0,0,0,.15)!important;
 }
 body{
 
-	//background-color:  $backgroundColor;
+	background-color:  $backgroundColor;
+	font-family: monospace;
+	color: white;
+}
+p{
+	color: #000000;
 }
 footer ul{
 	padding: 0px;
