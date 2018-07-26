@@ -1,0 +1,15 @@
+#boardList{
+	min-height: 400px;
+}
+#boardDetails{
+	min-height: 400px;	
+}
+
+@media (min-width: 768px) {
+	#boardList{
+		min-height: 600px;
+	}
+	#boardDetails{
+		min-height: 600px;	
+	}
+}

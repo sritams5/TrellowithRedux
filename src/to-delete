@@ -1,0 +1,61 @@
+<div class="card m_boardsBox" board-id="0">
+	<div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">
+		<button class="m_boardIcon boardEditIcon" board_id="0">
+			<img class="m_icon" alt="Edit Overview" src="img/edit.png" board_id="0">
+		</button>
+		<button class="m_boardIcon boardDeleteIcon" board_id="0">
+			<img class="m_icon" alt="Delete Overview" src="img/delete.png" board_id="0">
+		</button>
+	</div>
+	<div class="card-body pt-1">
+		<a href="#" board_id="0">
+			<h5 class="card-title">Overview</h5>
+		</a>
+		<form class="form-inline d-none"><input class="form-control w-100" board_id="0"></form>
+	</div>
+</div>
+
+
+
+<div class="card m_listBox" list-id="2">
+	<div class="card-header d-flex justify-content-between">
+		<h5>test</h5>
+		<form class="form-inline d-none">
+			<input class="form-control w-100" list_id="2">
+		</form>
+		<span class="m_card_icon_span">
+			<button class="m_listIcon listEditIcon" list_id="2">
+				<img class="m_smallicon" alt="Edit test" src="img/edit.png">
+			</button>
+			<button class="m_listIcon listDeleteIcon" list_id="2">
+				<img class="m_smallicon" src="img/delete.png" alt="Delete test">
+			</button>
+		</span>
+	</div>
+	<div class="card-body px-0 py-0 m_card_list">
+		<ul list_id="2" class="list-group m_card_list list-group-flush ui-sortable" style="min-height: 60px;">
+		</ul>
+	</div>
+	<div class="card-footer">
+		<a href="#">Add a Card</a>
+		<form class="form-inline d-none">
+			<input class="form-control w-100" list_id="2">
+		</form>
+	</div>
+</div>
+
+
+<li class="d-flex flex-row justify-content-between m_card rounded" card_id="0" list_id="0">
+	<p class="mb-0">Week 1</p>
+	<form class="form-inline d-none">
+		<input class="form-control w-100" list_id="0">
+	</form>
+	<span class="m_card_icon_span">
+		<button class="m_listIcon cardEditIcon" card_id="0" list_id="0">
+			<img class="m_smallicon" alt="Edit Week 1" src="img/edit.png">
+		</button>
+		<button class="m_listIcon cardDeleteIcon" card_id="0" list_id="0">
+			<img class="m_smallicon" src="img/delete.png" alt="Delete Week 1">
+		</button>
+	</span>
+</li>

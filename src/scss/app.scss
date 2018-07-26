@@ -1,0 +1,12 @@
+$backgroundColor:  #DCCFEC;
+$boardBgColor: #f8f9fa;
+$boardFontColor: #4F517D;
+$boardCardBorder: 5px;
+$boardBorderColor: #DDC4DD;
+
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "base";
+@import "layout";
+@import "module";
+@import "state";
