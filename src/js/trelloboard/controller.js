@@ -51,11 +51,9 @@ function hideBoardEditForm(event) {
 $('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
 
 
-function makeSortable() {
-  console.log('sortable dispatch');
+function doSwappable() {
   $('#boardList').sortable({
     update() {
-      console.log('sortable update');
       const position = [];
       const lis = this.getElementsByClassName('board_class');
       for (let i = 0; i < lis.length; i += 1) {
@@ -76,7 +74,6 @@ store.subscribe(() => {
     boardsView.hideBoards();
   } else {
     boardsView.showBoards(state.boards);
-    console.log('sortable');
-    makeSortable();
+    doSwappable();
   }
 });

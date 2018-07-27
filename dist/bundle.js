@@ -21243,17 +21243,69 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 __webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
 
+function showListEdit(event) {
+  _view2.default.showListEditForm(event.target.getAttribute('boardlistId'));
+}
+$('#boardDetails').on('click', '.listEditIcon', showListEdit);
+function deleteList(event) {
+  _state2.default.dispatch({
+    type: 'DELETELIST',
+    listId: event.target.getAttribute('boardlistId')
+  });
+}
+$('#boardDetails').on('click', '.listDeleteIcon', deleteList);
+function updateListDetails(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    _state2.default.dispatch({
+      type: 'UPDATELIST',
+      name: event.target.value,
+      listId: event.target.getAttribute('boardlistId')
+    });
+    return false;
+  }if (event.keyCode === 27) {
+    _view2.default.hideListEditForm(event.target.getAttribute('boardlistId'));
+  }
+
+  return true;
+}
+$('#boardDetails').on('keydown', 'input.listInput', updateListDetails);
+
+function hideListEdit(event) {
+  _view2.default.hideListEditForm(event.target.getAttribute('boardlistId'));
+}
+$('#boardDetails').on('focusout', 'input.listInput', hideListEdit);
+function addNewCard(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    _state2.default.dispatch({
+      type: 'ADDCARD',
+      name: event.target.value,
+      listId: event.target.getAttribute('boardlistId')
+    });
+    return false;
+  }if (event.keyCode === 27) {
+    // console.log('in controller addNewCard escape');
+    _view2.default.hideAddCards(event.target.getAttribute('boardlistId'));
+  }
+  return true;
+}
+$('#boardDetails').on('keydown', 'input.newCard', addNewCard);
+
 function showEditCard(event) {
   var listId = event.target.getAttribute('boardlistId');
   var cardId = event.target.getAttribute('cardViewId');
   _view2.default.showEditCard(listId, cardId);
 }
+$('#boardDetails').on('click', '.cardEditIcon', showEditCard);
 
 function hideEditCard(event) {
   var listId = event.target.getAttribute('boardlistId');
   var cardId = event.target.getAttribute('cardViewId');
   _view2.default.hideEditCard(listId, cardId);
 }
+$('#boardDetails').on('focusout', 'input.cardInput', hideEditCard);
+
 function updateCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -21273,6 +21325,7 @@ function updateCard(event) {
   }
   return true;
 }
+$('#boardDetails').on('keydown', 'input.cardInput', updateCard);
 function deleteCard(event) {
   var listId = event.target.getAttribute('boardlistId');
   var cardId = event.target.getAttribute('cardViewId');
@@ -21282,57 +21335,19 @@ function deleteCard(event) {
     cardId: cardId
   });
 }
-function addNewCard(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    _state2.default.dispatch({
-      type: 'ADDCARD',
-      name: event.target.value,
-      listId: event.target.getAttribute('boardlistId')
-    });
-    return false;
-  }if (event.keyCode === 27) {
-    // console.log('in controller addNewCard escape');
-    _view2.default.hideAddCards(event.target.getAttribute('boardlistId'));
-  }
-  return true;
-}
+$('#boardDetails').on('click', '.cardDeleteIcon', deleteCard);
+
 function showAddCards(event) {
   _view2.default.showAddCards(event.target.getAttribute('boardlistId'));
 }
+$('#boardDetails').on('click', 'div.card-footer a', showAddCards);
 
 function hideAddCards(event) {
   _view2.default.hideAddCards(event.target.getAttribute('boardlistId'));
 }
+$('#boardDetails').on('focusout', 'input.newCard', hideAddCards);
 
-function updateListDetails(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    _state2.default.dispatch({
-      type: 'UPDATELIST',
-      name: event.target.value,
-      listId: event.target.getAttribute('boardlistId')
-    });
-    return false;
-  }if (event.keyCode === 27) {
-    _view2.default.hideListEditForm(event.target.getAttribute('boardlistId'));
-  }
-
-  return true;
-}
-function hideListEdit(event) {
-  _view2.default.hideListEditForm(event.target.getAttribute('boardlistId'));
-}
-function showListEdit(event) {
-  _view2.default.showListEditForm(event.target.getAttribute('boardlistId'));
-}
-function deleteList(event) {
-  _state2.default.dispatch({
-    type: 'DELETELIST',
-    listId: event.target.getAttribute('boardlistId')
-  });
-}
-function makeSortable() {
+function doSwappable() {
   $('#boardDetails').sortable({
     handle: '.card-header',
     update: function update() {
@@ -21371,26 +21386,12 @@ function makeSortable() {
   });
 }
 
-$('#boardDetails').on('click', '.listEditIcon', showListEdit);
-$('#boardDetails').on('click', '.listDeleteIcon', deleteList);
-$('#boardDetails').on('keydown', 'input.listInput', updateListDetails);
-$('#boardDetails').on('focusout', 'input.listInput', hideListEdit);
-
-$('#boardDetails').on('click', 'div.card-footer a', showAddCards);
-$('#boardDetails').on('focusout', 'input.newCard', hideAddCards);
-$('#boardDetails').on('keydown', 'input.newCard', addNewCard);
-
-$('#boardDetails').on('click', '.cardEditIcon', showEditCard);
-$('#boardDetails').on('focusout', 'input.cardInput', hideEditCard);
-$('#boardDetails').on('click', '.cardDeleteIcon', deleteCard);
-$('#boardDetails').on('keydown', 'input.cardInput', updateCard);
-
 _state2.default.subscribe(function () {
   var state = _state2.default.getState();
   if (state.ibdSelected >= 0) {
     var listItems = state.boards[state.ibdSelected].lists;
     _view2.default.showLists(listItems);
-    makeSortable();
+    doSwappable();
     if (state.selectedListId) {
       _view2.default.showAddCards(state.selectedListId);
     }
@@ -22068,11 +22069,9 @@ function hideBoardEditForm(event) {
 }
 $('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
 
-function makeSortable() {
-  console.log('sortable dispatch');
+function doSwappable() {
   $('#boardList').sortable({
     update: function update() {
-      console.log('sortable update');
       var position = [];
       var lis = this.getElementsByClassName('board_class');
       for (var i = 0; i < lis.length; i += 1) {
@@ -22092,8 +22091,7 @@ _state2.default.subscribe(function () {
     _view2.default.hideBoards();
   } else {
     _view2.default.showBoards(state.boards);
-    console.log('sortable');
-    makeSortable();
+    doSwappable();
   }
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
