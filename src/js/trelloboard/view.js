@@ -10,39 +10,39 @@ class Boards {
   }
 
   static createBoardOdd(boardName, boardId) {
-    return Boards.createDOMElement(`<div class="card m_boardsBox_odd board_class" board-id="${boardId}">
+    return Boards.createDOMElement(`<div class="card m_boardsBox_odd board_class" mytrelloboardId="${boardId}">
     <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">
-    <button class="m_boardIcon boardEditIcon" board-id="${boardId}">
-    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="${boardId}">
+    <button class="m_boardIcon boardEditIcon" mytrelloboardId="${boardId}">
+    <img class="m_icon" alt="Edit Overview" src="img/edit.png" mytrelloboardId="${boardId}">
     </button>
-    <button class="m_boardIcon boardDeleteIcon" board-id="${boardId}">
-    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="${boardId}">
+    <button class="m_boardIcon boardDeleteIcon" mytrelloboardId="${boardId}">
+    <img class="m_icon" alt="Delete Overview" src="img/delete.png" mytrelloboardId="${boardId}">
     </button>
     </div>
-    <div class="card-body pt-1" board-id="${boardId}">
-    <a href="#" board-id="${boardId}">
-    <h5 class="card-title centered" board-id="${boardId}">${boardName}</h5>
+    <div class="card-body pt-1" mytrelloboardId="${boardId}">
+    <a href="#" mytrelloboardId="${boardId}">
+    <h5 class="card-title centered" mytrelloboardId="${boardId}">${boardName}</h5>
     </a>
-    <form class="form-inline d-none"><input class="form-control w-100" board-id="${boardId}" value="${boardName}"></form>
+    <form class="form-inline d-none"><input class="form-control w-100" mytrelloboardId="${boardId}" value="${boardName}"></form>
     </div>
     </div>`);
   }
 
   static createBoardEven(boardName, boardId) {
-    return Boards.createDOMElement(`<div class="card m_boardsBox_even board_class" board-id="${boardId}">
+    return Boards.createDOMElement(`<div class="card m_boardsBox_even board_class" mytrelloboardId="${boardId}">
     <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">
-    <button class="m_boardIcon boardEditIcon" board-id="${boardId}">
-    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="${boardId}">
+    <button class="m_boardIcon boardEditIcon" mytrelloboardId="${boardId}">
+    <img class="m_icon" alt="Edit Overview" src="img/edit.png" mytrelloboardId="${boardId}">
     </button>
-    <button class="m_boardIcon boardDeleteIcon" board-id="${boardId}">
-    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="${boardId}">
+    <button class="m_boardIcon boardDeleteIcon" mytrelloboardId="${boardId}">
+    <img class="m_icon" alt="Delete Overview" src="img/delete.png" mytrelloboardId="${boardId}">
     </button>
     </div>
-    <div class="card-body pt-1" board-id="${boardId}">
-    <a href="#" board-id="${boardId}">
-    <h5 class="card-title centered" board-id="${boardId}">${boardName}</h5>
+    <div class="card-body pt-1" mytrelloboardId="${boardId}">
+    <a href="#" mytrelloboardId="${boardId}">
+    <h5 class="card-title centered" mytrelloboardId="${boardId}">${boardName}</h5>
     </a>
-    <form class="form-inline d-none"><input class="form-control w-100" board-id="${boardId}" value="${boardName}"></form>
+    <form class="form-inline d-none"><input class="form-control w-100" mytrelloboardId="${boardId}" value="${boardName}"></form>
     </div>
     </div>`);
   }
@@ -66,18 +66,18 @@ class Boards {
   }
 
   showBoardEditForm(boardId) {
-    const a = this.parent.querySelector(`div[board-id="${boardId}"].card-body a`);
+    const a = this.parent.querySelector(`div[mytrelloboardId="${boardId}"].card-body a`);
     a.classList.add('d-none');
-    const form = this.parent.querySelector(`div[board-id="${boardId}"].card-body form`);
+    const form = this.parent.querySelector(`div[mytrelloboardId="${boardId}"].card-body form`);
     form.classList.remove('d-none');
-    const formInput = this.parent.querySelector(`div[board-id="${boardId}"].card-body input`);
+    const formInput = this.parent.querySelector(`div[mytrelloboardId="${boardId}"].card-body input`);
     formInput.focus();
   }
 
   hideBoardEditForm(boardId) {
-    const a = this.parent.querySelector(`div[board-id="${boardId}"].card-body a`);
+    const a = this.parent.querySelector(`div[mytrelloboardId="${boardId}"].card-body a`);
     a.classList.remove('d-none');
-    const form = this.parent.querySelector(`div[board-id="${boardId}"].card-body form`);
+    const form = this.parent.querySelector(`div[mytrelloboardId="${boardId}"].card-body form`);
     form.classList.add('d-none');
   }
 }

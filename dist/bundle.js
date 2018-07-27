@@ -21240,25 +21240,25 @@ var _state2 = _interopRequireDefault(_state);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+__webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 __webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
 
 function showEditCard(event) {
-  var listId = event.target.getAttribute('list-id');
-  var cardId = event.target.getAttribute('card-id');
+  var listId = event.target.getAttribute('boardlistId');
+  var cardId = event.target.getAttribute('cardViewId');
   _view2.default.showEditCard(listId, cardId);
 }
 
 function hideEditCard(event) {
-  var listId = event.target.getAttribute('list-id');
-  var cardId = event.target.getAttribute('card-id');
+  var listId = event.target.getAttribute('boardlistId');
+  var cardId = event.target.getAttribute('cardViewId');
   _view2.default.hideEditCard(listId, cardId);
 }
 function updateCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    var listId = event.target.getAttribute('list-id');
-    var cardId = event.target.getAttribute('card-id');
+    var listId = event.target.getAttribute('boardlistId');
+    var cardId = event.target.getAttribute('cardViewId');
     _state2.default.dispatch({
       type: 'UPDATECARD',
       name: event.target.value,
@@ -21267,15 +21267,15 @@ function updateCard(event) {
     });
     return false;
   }if (event.keyCode === 27) {
-    var _listId = event.target.getAttribute('list-id');
-    var _cardId = event.target.getAttribute('card-id');
+    var _listId = event.target.getAttribute('boardlistId');
+    var _cardId = event.target.getAttribute('cardViewId');
     _view2.default.hideEditCard(_listId, _cardId);
   }
   return true;
 }
 function deleteCard(event) {
-  var listId = event.target.getAttribute('list-id');
-  var cardId = event.target.getAttribute('card-id');
+  var listId = event.target.getAttribute('boardlistId');
+  var cardId = event.target.getAttribute('cardViewId');
   _state2.default.dispatch({
     type: 'DELETECARD',
     listId: listId,
@@ -21288,21 +21288,21 @@ function addNewCard(event) {
     _state2.default.dispatch({
       type: 'ADDCARD',
       name: event.target.value,
-      listId: event.target.getAttribute('list-id')
+      listId: event.target.getAttribute('boardlistId')
     });
     return false;
   }if (event.keyCode === 27) {
     // console.log('in controller addNewCard escape');
-    _view2.default.hideAddCards(event.target.getAttribute('list-id'));
+    _view2.default.hideAddCards(event.target.getAttribute('boardlistId'));
   }
   return true;
 }
 function showAddCards(event) {
-  _view2.default.showAddCards(event.target.getAttribute('list-id'));
+  _view2.default.showAddCards(event.target.getAttribute('boardlistId'));
 }
 
 function hideAddCards(event) {
-  _view2.default.hideAddCards(event.target.getAttribute('list-id'));
+  _view2.default.hideAddCards(event.target.getAttribute('boardlistId'));
 }
 
 function updateListDetails(event) {
@@ -21311,47 +21311,47 @@ function updateListDetails(event) {
     _state2.default.dispatch({
       type: 'UPDATELIST',
       name: event.target.value,
-      listId: event.target.getAttribute('list-id')
+      listId: event.target.getAttribute('boardlistId')
     });
     return false;
   }if (event.keyCode === 27) {
-    _view2.default.hideListEditForm(event.target.getAttribute('list-id'));
+    _view2.default.hideListEditForm(event.target.getAttribute('boardlistId'));
   }
 
   return true;
 }
 function hideListEdit(event) {
-  _view2.default.hideListEditForm(event.target.getAttribute('list-id'));
+  _view2.default.hideListEditForm(event.target.getAttribute('boardlistId'));
 }
 function showListEdit(event) {
-  _view2.default.showListEditForm(event.target.getAttribute('list-id'));
+  _view2.default.showListEditForm(event.target.getAttribute('boardlistId'));
 }
 function deleteList(event) {
   _state2.default.dispatch({
     type: 'DELETELIST',
-    listId: event.target.getAttribute('list-id')
+    listId: event.target.getAttribute('boardlistId')
   });
 }
 function makeSortable() {
   $('#boardDetails').sortable({
     handle: '.card-header',
     update: function update() {
-      var newOrder = [];
+      var position = [];
       var lis = this.getElementsByClassName('m_listBox');
       for (var i = 0; i < lis.length; i += 1) {
-        newOrder.push(lis[i].getAttribute('list-id'));
+        position.push(lis[i].getAttribute('boardlistId'));
       }
 
       _state2.default.dispatch({
-        type: 'REORDERLIST',
-        order: newOrder
+        type: 'REPOSITIONLIST',
+        position: position
       });
     }
   });
   $('.m_card_list').sortable({
     connectWith: 'ul',
     update: function update() {
-      var tempListId = this.getAttribute('list-id');
+      var tempListId = this.getAttribute('boardlistId');
 
       var tempCardList = [];
 
@@ -21387,8 +21387,8 @@ $('#boardDetails').on('keydown', 'input.cardInput', updateCard);
 
 _state2.default.subscribe(function () {
   var state = _state2.default.getState();
-  if (state.selectedBoardId >= 0) {
-    var listItems = state.boards[state.selectedBoardId].lists;
+  if (state.ibdSelected >= 0) {
+    var listItems = state.boards[state.ibdSelected].lists;
     _view2.default.showLists(listItems);
     makeSortable();
     if (state.selectedListId) {
@@ -21453,29 +21453,29 @@ var ListBox = function () {
   }, {
     key: 'showListEditForm',
     value: function showListEditForm(listId) {
-      var a = this.parent.querySelector('div[list-id="' + listId + '"].card-header h5');
+      var a = this.parent.querySelector('div[boardlistId="' + listId + '"].card-header h5');
       a.classList.add('d-none');
-      var form = this.parent.querySelector('div[list-id="' + listId + '"].card-header form');
+      var form = this.parent.querySelector('div[boardlistId="' + listId + '"].card-header form');
       form.classList.remove('d-none');
-      var formInput = this.parent.querySelector('div[list-id="' + listId + '"].card-header input');
+      var formInput = this.parent.querySelector('div[boardlistId="' + listId + '"].card-header input');
       formInput.focus();
     }
   }, {
     key: 'hideListEditForm',
     value: function hideListEditForm(listId) {
-      var a = this.parent.querySelector('div[list-id="' + listId + '"].card-header h5');
+      var a = this.parent.querySelector('div[boardlistId="' + listId + '"].card-header h5');
       a.classList.remove('d-none');
-      var form = this.parent.querySelector('div[list-id="' + listId + '"].card-header form');
+      var form = this.parent.querySelector('div[boardlistId="' + listId + '"].card-header form');
       form.classList.add('d-none');
     }
   }, {
     key: 'showAddCards',
     value: function showAddCards(listId) {
-      var a = this.parent.querySelector('div[list-id="' + listId + '"].card-footer a');
+      var a = this.parent.querySelector('div[boardlistId="' + listId + '"].card-footer a');
       a.classList.add('d-none');
-      var form = this.parent.querySelector('div[list-id="' + listId + '"].card-footer form');
+      var form = this.parent.querySelector('div[boardlistId="' + listId + '"].card-footer form');
       form.classList.remove('d-none');
-      var formInput = this.parent.querySelector('div[list-id="' + listId + '"].card-footer input');
+      var formInput = this.parent.querySelector('div[boardlistId="' + listId + '"].card-footer input');
       formInput.value = '';
       formInput.focus();
     }
@@ -21483,28 +21483,28 @@ var ListBox = function () {
     key: 'hideAddCards',
     value: function hideAddCards(listId) {
       // console.log('In list view hideAddCards');
-      var a = this.parent.querySelector('div[list-id="' + listId + '"].card-footer a');
+      var a = this.parent.querySelector('div[boardlistId="' + listId + '"].card-footer a');
       a.classList.remove('d-none');
-      var form = this.parent.querySelector('div[list-id="' + listId + '"].card-footer form');
+      var form = this.parent.querySelector('div[boardlistId="' + listId + '"].card-footer form');
       form.classList.add('d-none');
     }
   }, {
     key: 'showEditCard',
     value: function showEditCard(listId, cardId) {
       // console.log('In list view showEditCards');
-      var a = this.parent.querySelector('li[list-id="' + listId + '"][card-id="' + cardId + '"].card-detail p');
+      var a = this.parent.querySelector('li[boardlistId="' + listId + '"][cardViewId="' + cardId + '"].card-detail p');
       a.classList.add('d-none');
-      var form = this.parent.querySelector('li[list-id="' + listId + '"][card-id="' + cardId + '"].card-detail form');
+      var form = this.parent.querySelector('li[boardlistId="' + listId + '"][cardViewId="' + cardId + '"].card-detail form');
       form.classList.remove('d-none');
-      var formInput = this.parent.querySelector('li[list-id="' + listId + '"][card-id="' + cardId + '"].card-detail input');
+      var formInput = this.parent.querySelector('li[boardlistId="' + listId + '"][cardViewId="' + cardId + '"].card-detail input');
       formInput.focus();
     }
   }, {
     key: 'hideEditCard',
     value: function hideEditCard(listId, cardId) {
-      var a = this.parent.querySelector('li[list-id="' + listId + '"][card-id="' + cardId + '"].card-detail p');
+      var a = this.parent.querySelector('li[boardlistId="' + listId + '"][cardViewId="' + cardId + '"].card-detail p');
       a.classList.remove('d-none');
-      var form = this.parent.querySelector('li[list-id="' + listId + '"][card-id="' + cardId + '"].card-detail form');
+      var form = this.parent.querySelector('li[boardlistId="' + listId + '"][cardViewId="' + cardId + '"].card-detail form');
       form.classList.add('d-none');
     }
   }], [{
@@ -21517,12 +21517,12 @@ var ListBox = function () {
   }, {
     key: 'creatList',
     value: function creatList(listName, listId) {
-      return ListBox.createDOMElement('<div class="card m_listBox" list-id="' + listId + '">\n<div class="card-header d-flex justify-content-between" list-id="' + listId + '">\n<h5>' + listName + '</h5>\n<form class="form-inline d-none" list-id="' + listId + '">\n<input class="form-control listInput w-100" list-id="' + listId + '" value="' + listName + '">\n</form>\n<span class="m_card_icon_span">\n<button class="m_listIcon listEditIcon" list-id="' + listId + '">\n<img class="m_smallicon" alt="Edit ' + listName + '" src="img/edit.png" list-id="' + listId + '">\n</button>\n<button class="m_listIcon listDeleteIcon" list-id="' + listId + '">\n<img class="m_smallicon" src="img/delete.png" alt="Delete ' + listName + '" list-id="' + listId + '">\n</button>\n</span>\n</div>\n<div class="card-body px-0 py-0 m_card_list">\n<ul list-id="' + listId + '" class="list-group m_card_list list-group-flush ui-sortable" style="min-height: 60px;">\n</ul>\n</div>\n<div class="card-footer" list-id="' + listId + '">\n<a href="#" list-id="' + listId + '">Add a Card</a>\n<form class="form-inline d-none" list-id="' + listId + '">\n<input class="form-control newCard w-100" list-id="' + listId + '">\n</form>\n</div>\n</div>');
+      return ListBox.createDOMElement('<div class="card m_listBox" boardlistId="' + listId + '">\n<div class="card-header d-flex justify-content-between" boardlistId="' + listId + '">\n<h5>' + listName + '</h5>\n<form class="form-inline d-none" boardlistId="' + listId + '">\n<input class="form-control listInput w-100" boardlistId="' + listId + '" value="' + listName + '">\n</form>\n<span class="m_card_icon_span">\n<button class="m_listIcon listEditIcon" boardlistId="' + listId + '">\n<img class="m_smallicon" alt="Edit ' + listName + '" src="img/edit.png" boardlistId="' + listId + '">\n</button>\n<button class="m_listIcon listDeleteIcon" boardlistId="' + listId + '">\n<img class="m_smallicon" src="img/delete.png" alt="Delete ' + listName + '" boardlistId="' + listId + '">\n</button>\n</span>\n</div>\n<div class="card-body px-0 py-0 m_card_list">\n<ul boardlistId="' + listId + '" class="list-group m_card_list list-group-flush ui-sortable" style="min-height: 60px;">\n</ul>\n</div>\n<div class="card-footer" boardlistId="' + listId + '">\n<a href="#" boardlistId="' + listId + '">Add a Card</a>\n<form class="form-inline d-none" boardlistId="' + listId + '">\n<input class="form-control newCard w-100" boardlistId="' + listId + '">\n</form>\n</div>\n</div>');
     }
   }, {
     key: 'createCard',
     value: function createCard(cardName, cardId, listId) {
-      return ListBox.createDOMElement('<li class="d-flex flex-row card-detail justify-content-between m_card rounded" card-id="' + cardId + '" list-id="' + listId + '">\n<p class="mb-0">' + cardName + '</p>\n<form class="form-inline d-none">\n<input class="form-control cardInput w-100" card-id="' + cardId + '" list-id="' + listId + '" value="' + cardName + '">\n</form>\n<span class="m_card_icon_span">\n<button class="m_listIcon cardEditIcon" card-id="' + cardId + '" list-id="' + listId + '">\n<img class="m_smallicon" alt="Edit ' + cardName + '" src="img/edit.png" card-id="' + cardId + '" list-id="' + listId + '">\n</button>\n<button class="m_listIcon cardDeleteIcon" card-id="' + cardId + '" list-id="' + listId + '">\n<img class="m_smallicon" src="img/delete.png" alt="Delete ' + cardName + '" card-id="' + cardId + '" list-id="' + listId + '">\n</button>\n</span>\n</li>');
+      return ListBox.createDOMElement('<li class="d-flex flex-row card-detail justify-content-between m_card rounded" cardViewId="' + cardId + '" boardlistId="' + listId + '">\n<p class="mb-0">' + cardName + '</p>\n<form class="form-inline d-none">\n<input class="form-control cardInput w-100" cardViewId="' + cardId + '" boardlistId="' + listId + '" value="' + cardName + '">\n</form>\n<span class="m_card_icon_span">\n<button class="m_listIcon cardEditIcon" cardViewId="' + cardId + '" boardlistId="' + listId + '">\n<img class="m_smallicon" alt="Edit ' + cardName + '" src="img/edit.png" cardViewId="' + cardId + '" boardlistId="' + listId + '">\n</button>\n<button class="m_listIcon cardDeleteIcon" cardViewId="' + cardId + '" boardlistId="' + listId + '">\n<img class="m_smallicon" src="img/delete.png" alt="Delete ' + cardName + '" cardViewId="' + cardId + '" boardlistId="' + listId + '">\n</button>\n</span>\n</li>');
     }
   }]);
 
@@ -21558,18 +21558,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function showBoardList() {
   _state2.default.dispatch({ type: 'SHOWBOARDS' });
 }
-
+$('#navabarId').on('click', '#brandid', showBoardList);
 function createBoard() {
-  var createBoardInput = document.getElementById('createBoardInput');
+  var boardInput = document.getElementById('boardInputId');
   $('#boardModal').modal('hide');
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
-  if (createBoardInput.value) {
-    _state2.default.dispatch({ type: 'ADDBOARD', name: createBoardInput.value });
+  if (boardInput.value) {
+    _state2.default.dispatch({ type: 'CREATEBOARD', name: boardInput.value });
   }
 }
-
-function createBoardKey(event) {
+$('#navabarId').on('click', '#boardBtnId', createBoard);
+function createBoardFromInput(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     createBoard();
@@ -21577,18 +21577,18 @@ function createBoardKey(event) {
   }
   return true;
 }
-
+$('#navabarId').on('keydown', '#boardInputId', createBoardFromInput);
 function createList() {
-  var createListInput = document.getElementById('createListInput');
+  var listInput = document.getElementById('listInputId');
   $('#listModal').modal('hide');
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
-  if (createListInput.value) {
-    _state2.default.dispatch({ type: 'ADDLIST', name: createListInput.value });
+  if (listInput.value) {
+    _state2.default.dispatch({ type: 'CREATELIST', name: listInput.value });
   }
 }
-
-function createListKey(event) {
+$('#navabarId').on('click', '#listBtnId', createList);
+function createListFromInput(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     createList();
@@ -21596,19 +21596,14 @@ function createListKey(event) {
   }
   return true;
 }
+$('#navabarId').on('keydown', '#listInputId', createListFromInput);
 
 _view2.default.showNavForBoardList();
 
-$('#trelloNavBar').on('click', '#createBoardBtn', createBoard);
-$('#trelloNavBar').on('keydown', '#createBoardInput', createBoardKey);
-$('#trelloNavBar').on('click', '#createListBtn', createList);
-$('#trelloNavBar').on('keydown', '#createListInput', createListKey);
-$('#trelloNavBar').on('click', '#myTrelloLogo', showBoardList);
-
 _state2.default.subscribe(function () {
   var state = _state2.default.getState();
-  if (state.selectedBoardId >= 0) {
-    _view2.default.showNavForBoardDetails(state.boards[state.selectedBoardId].name);
+  if (state.ibdSelected >= 0) {
+    _view2.default.showNavForBoardDetails(state.boards[state.ibdSelected].name);
   } else {
     _view2.default.showNavForBoardList();
   }
@@ -21635,44 +21630,44 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var NavHeader = function () {
-  function NavHeader() {
-    _classCallCheck(this, NavHeader);
+var Navbar = function () {
+  function Navbar() {
+    _classCallCheck(this, Navbar);
 
-    this.parent = document.getElementById('trelloNavBar');
+    this.parent = document.getElementById('navabarId');
 
-    this.trelloLogo = '<div class="col d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">\n    <a class="navbar-brand" href="#" id="myTrelloLogo"><img src="img/logo.png" alt="logo" id="brand" class="img-responsive"></a>\n    </div>';
+    this.trelloLogo = '<div class="col d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">\n    <a class="navbar-brand" href="#" id="brandid"><img src="img/logo.png" alt="logo" id="brand" class="img-responsive"></a>\n    </div>';
 
     this.headerForm = '<div class="col d-flex justify-content-center justify-content-md-end"></div>';
     this.addBoardForm = '<form class="form-inline" id="createBoard">\n    <button class="btn btn-primary my-2 my-sm-0" type="button" data-toggle="modal" data-target="#boardModal">+ Add Board</button>\n    </form>';
-    this.modalBoardForm = '<div class="modal fade" id="boardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n    <div class="modal-dialog">\n    <div class="modal-content">\n    <div class="modal-header">\n    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\n    </div>\n    <div class="modal-body">\n    <form>\n    <div class="form-group">\n    <input type="text" class="form-control" id="createBoardInput" placeholder="Add board title" name="boardname"></input>\n    </div>\n    <button type="button" id="createBoardBtn" class="btn btn-success">Submit</button>\n    </form>\n    </div>\n    </div>\n    </div>\n    </div>';
+    this.modalBoardForm = '<div class="modal fade" id="boardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n    <div class="modal-dialog">\n    <div class="modal-content">\n    <div class="modal-header">\n    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\n    </div>\n    <div class="modal-body">\n    <form>\n    <div class="form-group">\n    <input type="text" class="form-control" id="boardInputId" placeholder="Add board title" name="boardname"></input>\n    </div>\n    <button type="button" id="boardBtnId" class="btn btn-success">Submit</button>\n    </form>\n    </div>\n    </div>\n    </div>\n    </div>';
     this.addListForm = '<form class="form-inline" id="createList">\n    <button class="btn btn-primary my-2 my-sm-0" type="button" data-toggle="modal" data-target="#listModal">+ Add List</button>\n    </form>';
-    this.modalListForm = '<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n    <div class="modal-dialog">\n    <div class="modal-content">\n    <div class="modal-header">\n    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\n    </div>\n    <div class="modal-body">\n    <form>\n    <div class="form-group">\n    <input type="text" class="form-control" id="createListInput" placeholder="Add list title" name="boardname"></input>\n    </div>\n    <button type="button" id="createListBtn" class="btn btn-success">Submit</button>\n    </form>\n    </div>\n    </div>\n    </div>\n    </div>';
+    this.modalListForm = '<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\n    <div class="modal-dialog">\n    <div class="modal-content">\n    <div class="modal-header">\n    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\n    </div>\n    <div class="modal-body">\n    <form>\n    <div class="form-group">\n    <input type="text" class="form-control" id="listInputId" placeholder="Add list title" name="boardname"></input>\n    </div>\n    <button type="button" id="listBtnId" class="btn btn-success">Submit</button>\n    </form>\n    </div>\n    </div>\n    </div>\n    </div>';
   }
 
-  _createClass(NavHeader, [{
+  _createClass(Navbar, [{
     key: 'createBoardHeader',
     value: function createBoardHeader(boardName) {
-      var board = NavHeader.createDOMElement(this.boardHeader = '<div class="col justify-content-center mb-3 mb-md-0" id="boardHeaderLabel">\n    <h4 class="navbar-brand" id="boardHeaderName">' + boardName + '</h4>\n    </div>');
+      var board = Navbar.createDOMElement(this.boardHeader = '<div class="col justify-content-center mb-3 mb-md-0" id="boardHeaderLabel">\n    <h4 class="navbar-brand" id="boardHeaderName">' + boardName + '</h4>\n    </div>');
       return board;
     }
   }, {
     key: 'showNavForBoardList',
     value: function showNavForBoardList() {
       this.parent.innerHTML = '';
-      this.parent.appendChild(NavHeader.createDOMElement(this.trelloLogo));
-      var headerForm = NavHeader.createDOMElement(this.headerForm).appendChild(NavHeader.createDOMElement(this.addBoardForm));
-      this.parent.appendChild(NavHeader.createDOMElement(this.modalBoardForm));
+      this.parent.appendChild(Navbar.createDOMElement(this.trelloLogo));
+      var headerForm = Navbar.createDOMElement(this.headerForm).appendChild(Navbar.createDOMElement(this.addBoardForm));
+      this.parent.appendChild(Navbar.createDOMElement(this.modalBoardForm));
       this.parent.appendChild(headerForm);
     }
   }, {
     key: 'showNavForBoardDetails',
     value: function showNavForBoardDetails(boardName) {
       this.parent.innerHTML = '';
-      this.parent.appendChild(NavHeader.createDOMElement(this.trelloLogo));
+      this.parent.appendChild(Navbar.createDOMElement(this.trelloLogo));
       this.parent.appendChild(this.createBoardHeader(boardName));
-      var headerForm = NavHeader.createDOMElement(this.headerForm).appendChild(NavHeader.createDOMElement(this.addListForm));
-      this.parent.appendChild(NavHeader.createDOMElement(this.modalListForm));
+      var headerForm = Navbar.createDOMElement(this.headerForm).appendChild(Navbar.createDOMElement(this.addListForm));
+      this.parent.appendChild(Navbar.createDOMElement(this.modalListForm));
       this.parent.appendChild(headerForm);
     }
   }], [{
@@ -21684,10 +21679,10 @@ var NavHeader = function () {
     }
   }]);
 
-  return NavHeader;
+  return Navbar;
 }();
 
-var nav = new NavHeader();
+var nav = new Navbar();
 exports.default = nav;
 
 /***/ }),
@@ -21705,19 +21700,18 @@ exports.default = nav;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
 function getCopyCurrentState(currentState) {
-  var newState = {};
-  if ('selectedBoardId' in currentState) {
-    newState.selectedBoardId = currentState.selectedBoardId;
+  var nextState = {};
+  if ('ibdSelected' in currentState) {
+    nextState.ibdSelected = currentState.ibdSelected;
   } else {
-    newState.selectedBoardId = -1;
+    nextState.ibdSelected = -1;
   }
 
-  newState.boards = [];
+  nextState.boards = [];
   currentState.boards.forEach(function (board) {
-    var currIndex = newState.boards.length;
-    newState.boards[currIndex] = {
+    var currIndex = nextState.boards.length;
+    nextState.boards[currIndex] = {
       name: board.name,
       lists: []
     };
@@ -21740,60 +21734,60 @@ function getCopyCurrentState(currentState) {
 
       tempList[currListIndex].cards = cardsList;
     });
-    newState.boards[currIndex].lists = tempList;
+    nextState.boards[currIndex].lists = tempList;
   });
-  return newState;
+  return nextState;
 }
 
 function reducer() {
-  var currentState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { selectedBoardId: -1, boards: [] };
+  var currentState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { ibdSelected: -1, boards: [] };
   var action = arguments[1];
 
-  var newState = getCopyCurrentState(currentState);
+  var nextState = getCopyCurrentState(currentState);
   switch (action.type) {
     case 'LOADDATA':
       {
-        newState.selectedBoardId = -1;
-        newState.boards = action.data;
+        nextState.ibdSelected = -1;
+        nextState.boards = action.data;
         break;
       }
     case 'SHOWBOARDS':
       {
-        newState.selectedBoardId = -1;
+        nextState.ibdSelected = -1;
         break;
       }
-    case 'SHOWBOARDDETAIL':
+    case 'BOARDDETAIL':
       {
-        newState.selectedBoardId = action.boardId;
+        nextState.ibdSelected = action.boardId;
         break;
       }
-    case 'REORDERBOARD':
+    case 'REPOSITIONBOARD':
       {
-        var order = action.order;
+        var position = action.position;
 
-        console.log("order-" + order);
-        order.forEach(function (newIndex, index) {
-          console.log(order);
-          newState.boards[index] = currentState.boards[newIndex];
+        console.log("position-" + position);
+        position.forEach(function (newIndex, index) {
+          console.log(position);
+          nextState.boards[index] = currentState.boards[newIndex];
         });
         break;
       }
-    case 'REORDERLIST':
+    case 'REPOSITIONLIST':
       {
-        var _order = action.order;
+        var _position = action.position;
 
-        var boardId = currentState.selectedBoardId;
-        _order.forEach(function (newIndex, index) {
-          newState.boards[boardId].lists[index] = currentState.boards[boardId].lists[newIndex];
+        var boardId = currentState.ibdSelected;
+        _position.forEach(function (newIndex, index) {
+          nextState.boards[boardId].lists[index] = currentState.boards[boardId].lists[newIndex];
         });
         break;
       }
-    case 'ADDBOARD':
+    case 'CREATEBOARD':
       {
         var name = action.name;
 
-        var boardLength = newState.boards.length;
-        newState.boards[boardLength] = {
+        var boardLength = nextState.boards.length;
+        nextState.boards[boardLength] = {
           name: name,
           lists: []
         };
@@ -21803,7 +21797,7 @@ function reducer() {
       {
         var _boardId = action.boardId;
 
-        newState.boards.splice(_boardId, 1);
+        nextState.boards.splice(_boardId, 1);
         break;
       }
     case 'UPDATEBOARD':
@@ -21811,15 +21805,15 @@ function reducer() {
         var _boardId2 = action.boardId,
             _name = action.name;
 
-        newState.boards[_boardId2].name = _name;
+        nextState.boards[_boardId2].name = _name;
         break;
       }
-    case 'ADDLIST':
+    case 'CREATELIST':
       {
         var _name2 = action.name;
 
-        var _boardId3 = currentState.selectedBoardId;
-        newState.boards[_boardId3].lists[newState.boards[_boardId3].lists.length] = {
+        var _boardId3 = currentState.ibdSelected;
+        nextState.boards[_boardId3].lists[nextState.boards[_boardId3].lists.length] = {
           name: _name2,
           cards: []
         };
@@ -21830,41 +21824,41 @@ function reducer() {
         var _name3 = action.name,
             listId = action.listId;
 
-        var _boardId4 = currentState.selectedBoardId;
-        newState.boards[_boardId4].lists[listId].name = _name3;
+        var _boardId4 = currentState.ibdSelected;
+        nextState.boards[_boardId4].lists[listId].name = _name3;
         break;
       }
     case 'DELETELIST':
       {
         var _listId = action.listId;
 
-        var _boardId5 = currentState.selectedBoardId;
-        newState.boards[_boardId5].lists.splice(_listId, 1);
+        var _boardId5 = currentState.ibdSelected;
+        nextState.boards[_boardId5].lists.splice(_listId, 1);
         break;
       }
     case 'ADDCARD':
       {
-        var _boardId6 = currentState.selectedBoardId;
+        var _boardId6 = currentState.ibdSelected;
         var _listId2 = action.listId,
             _name4 = action.name;
 
-        var cardlength = newState.boards[_boardId6].lists[_listId2].cards.length;
-        newState.boards[_boardId6].lists[_listId2].cards[cardlength] = {
+        var cardlength = nextState.boards[_boardId6].lists[_listId2].cards.length;
+        nextState.boards[_boardId6].lists[_listId2].cards[cardlength] = {
           name: _name4
         };
-        newState.selectedListId = _listId2;
+        nextState.selectedListId = _listId2;
         break;
       }
     case 'RESETLIST':
       {
-        var _boardId7 = currentState.selectedBoardId;
+        var _boardId7 = currentState.ibdSelected;
         var _listId3 = action.listId,
             cards = action.cards;
 
-        newState.boards[_boardId7].lists[_listId3].cards = [];
+        nextState.boards[_boardId7].lists[_listId3].cards = [];
         cards.forEach(function (card) {
-          var cardLength = newState.boards[_boardId7].lists[_listId3].cards.length;
-          newState.boards[_boardId7].lists[_listId3].cards[cardLength] = {
+          var cardLength = nextState.boards[_boardId7].lists[_listId3].cards.length;
+          nextState.boards[_boardId7].lists[_listId3].cards[cardLength] = {
             name: card
           };
         });
@@ -21872,26 +21866,26 @@ function reducer() {
       }
     case 'DELETECARD':
       {
-        var _boardId8 = currentState.selectedBoardId;
+        var _boardId8 = currentState.ibdSelected;
         var _listId4 = action.listId,
             cardId = action.cardId;
 
-        newState.boards[_boardId8].lists[_listId4].cards.splice(cardId, 1);
+        nextState.boards[_boardId8].lists[_listId4].cards.splice(cardId, 1);
         break;
       }
     case 'UPDATECARD':
       {
-        var _boardId9 = currentState.selectedBoardId;
+        var _boardId9 = currentState.ibdSelected;
         var _listId5 = action.listId,
             _cardId = action.cardId,
             _name5 = action.name;
 
-        newState.boards[_boardId9].lists[_listId5].cards[_cardId].name = _name5;
+        nextState.boards[_boardId9].lists[_listId5].cards[_cardId].name = _name5;
         break;
       }
     default:
   }
-  return newState;
+  return nextState;
 }
 exports.default = reducer;
 
@@ -21999,7 +21993,7 @@ var _reducer2 = _interopRequireDefault(_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.createStore)(_reducer2.default, { selectedBoardId: -1, boards: [] });
+var store = (0, _redux.createStore)(_reducer2.default, { ibdSelected: -1, boards: [] });
 
 exports.default = store;
 
@@ -22029,25 +22023,29 @@ var _state2 = _interopRequireDefault(_state);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+__webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 __webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
 
 function showBoardDetails(event) {
   _state2.default.dispatch({
-    type: 'SHOWBOARDDETAIL',
-    boardId: event.target.getAttribute('board-id')
+    type: 'BOARDDETAIL',
+    boardId: event.target.getAttribute('mytrelloboardId')
   });
 }
+$('#boardList').on('click', 'a', showBoardDetails);
+
+function showBoardEdit(event) {
+  _view2.default.showBoardEditForm(event.target.getAttribute('mytrelloboardId'));
+}
+$('#boardList').on('click', '.boardEditIcon', showBoardEdit);
+
 function deleteBoard(event) {
   _state2.default.dispatch({
     type: 'DELETEBOARD',
-    boardId: event.target.getAttribute('board-id')
+    boardId: event.target.getAttribute('mytrelloboardId')
   });
 }
-
-function hideBoardEditForm(event) {
-  _view2.default.hideBoardEditForm(event.target.getAttribute('board-id'));
-}
+$('#boardList').on('click', '.boardDeleteIcon', deleteBoard);
 
 function updateBoardDetail(event) {
   if (event.keyCode === 13) {
@@ -22055,50 +22053,46 @@ function updateBoardDetail(event) {
     _state2.default.dispatch({
       type: 'UPDATEBOARD',
       name: event.target.value,
-      boardId: event.target.getAttribute('board-id')
+      boardId: event.target.getAttribute('mytrelloboardId')
     });
     return false;
   }if (event.keyCode === 27) {
-    _view2.default.hideBoardEditForm(event.target.getAttribute('board-id'));
+    _view2.default.hideBoardEditForm(event.target.getAttribute('mytrelloboardId'));
   }
   return true;
 }
+$('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
 
-function showBoardEdit(event) {
-  _view2.default.showBoardEditForm(event.target.getAttribute('board-id'));
+function hideBoardEditForm(event) {
+  _view2.default.hideBoardEditForm(event.target.getAttribute('mytrelloboardId'));
 }
+$('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
+
 function makeSortable() {
-  console.log("sortable dispatch");
+  console.log('sortable dispatch');
   $('#boardList').sortable({
     update: function update() {
-      console.log("sortable update");
-      var newOrder = [];
+      console.log('sortable update');
+      var position = [];
       var lis = this.getElementsByClassName('board_class');
       for (var i = 0; i < lis.length; i += 1) {
-        newOrder.push(lis[i].getAttribute('board-id'));
+        position.push(lis[i].getAttribute('mytrelloboardId'));
       }
-      console.log('newOrder-' + newOrder);
       _state2.default.dispatch({
-        type: 'REORDERBOARD',
-        order: newOrder
+        type: 'REPOSITIONBOARD',
+        position: position
       });
     }
   });
 }
 
-$('#boardList').on('click', '.boardEditIcon', showBoardEdit);
-$('#boardList').on('click', '.boardDeleteIcon', deleteBoard);
-$('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
-$('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
-$('#boardList').on('click', 'a', showBoardDetails);
-
 _state2.default.subscribe(function () {
   var state = _state2.default.getState();
-  if (state.selectedBoardId >= 0) {
+  if (state.ibdSelected >= 0) {
     _view2.default.hideBoards();
   } else {
     _view2.default.showBoards(state.boards);
-    console.log("sortable");
+    console.log('sortable');
     makeSortable();
   }
 });
@@ -22154,19 +22148,19 @@ var Boards = function () {
   }, {
     key: 'showBoardEditForm',
     value: function showBoardEditForm(boardId) {
-      var a = this.parent.querySelector('div[board-id="' + boardId + '"].card-body a');
+      var a = this.parent.querySelector('div[mytrelloboardId="' + boardId + '"].card-body a');
       a.classList.add('d-none');
-      var form = this.parent.querySelector('div[board-id="' + boardId + '"].card-body form');
+      var form = this.parent.querySelector('div[mytrelloboardId="' + boardId + '"].card-body form');
       form.classList.remove('d-none');
-      var formInput = this.parent.querySelector('div[board-id="' + boardId + '"].card-body input');
+      var formInput = this.parent.querySelector('div[mytrelloboardId="' + boardId + '"].card-body input');
       formInput.focus();
     }
   }, {
     key: 'hideBoardEditForm',
     value: function hideBoardEditForm(boardId) {
-      var a = this.parent.querySelector('div[board-id="' + boardId + '"].card-body a');
+      var a = this.parent.querySelector('div[mytrelloboardId="' + boardId + '"].card-body a');
       a.classList.remove('d-none');
-      var form = this.parent.querySelector('div[board-id="' + boardId + '"].card-body form');
+      var form = this.parent.querySelector('div[mytrelloboardId="' + boardId + '"].card-body form');
       form.classList.add('d-none');
     }
   }], [{
@@ -22179,12 +22173,12 @@ var Boards = function () {
   }, {
     key: 'createBoardOdd',
     value: function createBoardOdd(boardName, boardId) {
-      return Boards.createDOMElement('<div class="card m_boardsBox_odd board_class" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
+      return Boards.createDOMElement('<div class="card m_boardsBox_odd board_class" mytrelloboardId="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" mytrelloboardId="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" mytrelloboardId="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" mytrelloboardId="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" mytrelloboardId="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" mytrelloboardId="' + boardId + '">\n    <a href="#" mytrelloboardId="' + boardId + '">\n    <h5 class="card-title centered" mytrelloboardId="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" mytrelloboardId="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
     }
   }, {
     key: 'createBoardEven',
     value: function createBoardEven(boardName, boardId) {
-      return Boards.createDOMElement('<div class="card m_boardsBox_even board_class" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
+      return Boards.createDOMElement('<div class="card m_boardsBox_even board_class" mytrelloboardId="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" mytrelloboardId="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" mytrelloboardId="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" mytrelloboardId="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" mytrelloboardId="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" mytrelloboardId="' + boardId + '">\n    <a href="#" mytrelloboardId="' + boardId + '">\n    <h5 class="card-title centered" mytrelloboardId="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" mytrelloboardId="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
     }
   }, {
     key: 'isOdd',

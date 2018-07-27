@@ -1,21 +1,22 @@
 import nav from './view';
 import store from '../state';
 
+
 function showBoardList() {
   store.dispatch({ type: 'SHOWBOARDS' });
 }
-
+$('#navabarId').on('click', '#brandid', showBoardList);
 function createBoard() {
-  const createBoardInput = document.getElementById('createBoardInput');
+  const boardInput = document.getElementById('boardInputId');
   $('#boardModal').modal('hide');
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
-  if (createBoardInput.value) {
-    store.dispatch({ type: 'CREATEBOARD', name: createBoardInput.value });
+  if (boardInput.value) {
+    store.dispatch({ type: 'CREATEBOARD', name: boardInput.value });
   }
 }
-
-function createBoardKey(event) {
+$('#navabarId').on('click', '#boardBtnId', createBoard);
+function createBoardFromInput(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     createBoard();
@@ -23,18 +24,18 @@ function createBoardKey(event) {
   }
   return true;
 }
-
+$('#navabarId').on('keydown', '#boardInputId', createBoardFromInput);
 function createList() {
-  const createListInput = document.getElementById('createListInput');
+  const listInput = document.getElementById('listInputId');
   $('#listModal').modal('hide');
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
-  if (createListInput.value) {
-    store.dispatch({ type: 'ADDLIST', name: createListInput.value });
+  if (listInput.value) {
+    store.dispatch({ type: 'CREATELIST', name: listInput.value });
   }
 }
-
-function createListKey(event) {
+$('#navabarId').on('click', '#listBtnId', createList);
+function createListFromInput(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     createList();
@@ -42,20 +43,14 @@ function createListKey(event) {
   }
   return true;
 }
-
+$('#navabarId').on('keydown', '#listInputId', createListFromInput);
 
 nav.showNavForBoardList();
 
-$('#trelloNavBar').on('click', '#createBoardBtn', createBoard);
-$('#trelloNavBar').on('keydown', '#createBoardInput', createBoardKey);
-$('#trelloNavBar').on('click', '#createListBtn', createList);
-$('#trelloNavBar').on('keydown', '#createListInput', createListKey);
-$('#trelloNavBar').on('click', '#myTrelloLogo', showBoardList);
-
 store.subscribe(() => {
   const state = store.getState();
-  if (state.selectedBoardId >= 0) {
-    nav.showNavForBoardDetails(state.boards[state.selectedBoardId].name);
+  if (state.ibdSelected >= 0) {
+    nav.showNavForBoardDetails(state.boards[state.ibdSelected].name);
   } else {
     nav.showNavForBoardList();
   }

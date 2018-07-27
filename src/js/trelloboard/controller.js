@@ -4,25 +4,30 @@ import 'jquery-ui';
 import boardsView from './view';
 import store from '../state';
 
-const sortable = require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
+
 
 function showBoardDetails(event) {
   store.dispatch({
-    type: 'SHOWBOARDDETAIL',
-    boardId: event.target.getAttribute('board-id'),
+    type: 'BOARDDETAIL',
+    boardId: event.target.getAttribute('mytrelloboardId'),
   });
 }
+$('#boardList').on('click', 'a', showBoardDetails);
+
+function showBoardEdit(event) {
+  boardsView.showBoardEditForm(event.target.getAttribute('mytrelloboardId'));
+}
+$('#boardList').on('click', '.boardEditIcon', showBoardEdit);
+
 function deleteBoard(event) {
   store.dispatch({
     type: 'DELETEBOARD',
-    boardId: event.target.getAttribute('board-id'),
+    boardId: event.target.getAttribute('mytrelloboardId'),
   });
 }
-
-function hideBoardEditForm(event) {
-  boardsView.hideBoardEditForm(event.target.getAttribute('board-id'));
-}
+$('#boardList').on('click', '.boardDeleteIcon', deleteBoard);
 
 function updateBoardDetail(event) {
   if (event.keyCode === 13) {
@@ -30,51 +35,48 @@ function updateBoardDetail(event) {
     store.dispatch({
       type: 'UPDATEBOARD',
       name: event.target.value,
-      boardId: event.target.getAttribute('board-id'),
+      boardId: event.target.getAttribute('mytrelloboardId'),
     });
     return false;
   } if (event.keyCode === 27) {
-    boardsView.hideBoardEditForm(event.target.getAttribute('board-id'));
+    boardsView.hideBoardEditForm(event.target.getAttribute('mytrelloboardId'));
   }
   return true;
 }
+$('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
 
-
-function showBoardEdit(event) {
-  boardsView.showBoardEditForm(event.target.getAttribute('board-id'));
+function hideBoardEditForm(event) {
+  boardsView.hideBoardEditForm(event.target.getAttribute('mytrelloboardId'));
 }
+$('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
+
+
 function makeSortable() {
-  console.log("sortable dispatch");
+  console.log('sortable dispatch');
   $('#boardList').sortable({
     update() {
-      console.log("sortable update");
-      const newOrder = [];
+      console.log('sortable update');
+      const position = [];
       const lis = this.getElementsByClassName('board_class');
       for (let i = 0; i < lis.length; i += 1) {
-        newOrder.push((lis[i].getAttribute('board-id')));
+        position.push((lis[i].getAttribute('mytrelloboardId')));
       }
-      console.log('newOrder-'+newOrder);
       store.dispatch({
-        type: 'REORDERBOARD',
-        order: newOrder,
+        type: 'REPOSITIONBOARD',
+        position,
       });
     },
   });
 }
 
-$('#boardList').on('click', '.boardEditIcon', showBoardEdit);
-$('#boardList').on('click', '.boardDeleteIcon', deleteBoard);
-$('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
-$('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
-$('#boardList').on('click', 'a', showBoardDetails);
 
 store.subscribe(() => {
   const state = store.getState();
-  if (state.selectedBoardId >= 0) {
+  if (state.ibdSelected >= 0) {
     boardsView.hideBoards();
   } else {
     boardsView.showBoards(state.boards);
-    console.log("sortable");
+    console.log('sortable');
     makeSortable();
   }
 });

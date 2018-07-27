@@ -4,25 +4,25 @@ import 'jquery-ui';
 import listBox from './view';
 import store from '../state';
 
-const sortable = require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showEditCard(event) {
-  const listId = event.target.getAttribute('list-id');
-  const cardId = event.target.getAttribute('card-id');
+  const listId = event.target.getAttribute('boardlistId');
+  const cardId = event.target.getAttribute('cardViewId');
   listBox.showEditCard(listId, cardId);
 }
 
 function hideEditCard(event) {
-  const listId = event.target.getAttribute('list-id');
-  const cardId = event.target.getAttribute('card-id');
+  const listId = event.target.getAttribute('boardlistId');
+  const cardId = event.target.getAttribute('cardViewId');
   listBox.hideEditCard(listId, cardId);
 }
 function updateCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    const listId = event.target.getAttribute('list-id');
-    const cardId = event.target.getAttribute('card-id');
+    const listId = event.target.getAttribute('boardlistId');
+    const cardId = event.target.getAttribute('cardViewId');
     store.dispatch({
       type: 'UPDATECARD',
       name: event.target.value,
@@ -31,15 +31,15 @@ function updateCard(event) {
     });
     return false;
   } if (event.keyCode === 27) {
-    const listId = event.target.getAttribute('list-id');
-    const cardId = event.target.getAttribute('card-id');
+    const listId = event.target.getAttribute('boardlistId');
+    const cardId = event.target.getAttribute('cardViewId');
     listBox.hideEditCard(listId, cardId);
   }
   return true;
 }
 function deleteCard(event) {
-  const listId = event.target.getAttribute('list-id');
-  const cardId = event.target.getAttribute('card-id');
+  const listId = event.target.getAttribute('boardlistId');
+  const cardId = event.target.getAttribute('cardViewId');
   store.dispatch({
     type: 'DELETECARD',
     listId,
@@ -52,21 +52,21 @@ function addNewCard(event) {
     store.dispatch({
       type: 'ADDCARD',
       name: event.target.value,
-      listId: event.target.getAttribute('list-id'),
+      listId: event.target.getAttribute('boardlistId'),
     });
     return false;
   } if (event.keyCode === 27) {
     // console.log('in controller addNewCard escape');
-    listBox.hideAddCards(event.target.getAttribute('list-id'));
+    listBox.hideAddCards(event.target.getAttribute('boardlistId'));
   }
   return true;
 }
 function showAddCards(event) {
-  listBox.showAddCards(event.target.getAttribute('list-id'));
+  listBox.showAddCards(event.target.getAttribute('boardlistId'));
 }
 
 function hideAddCards(event) {
-  listBox.hideAddCards(event.target.getAttribute('list-id'));
+  listBox.hideAddCards(event.target.getAttribute('boardlistId'));
 }
 
 function updateListDetails(event) {
@@ -75,48 +75,48 @@ function updateListDetails(event) {
     store.dispatch({
       type: 'UPDATELIST',
       name: event.target.value,
-      listId: event.target.getAttribute('list-id'),
+      listId: event.target.getAttribute('boardlistId'),
     });
     return false;
   } if (event.keyCode === 27) {
-    listBox.hideListEditForm(event.target.getAttribute('list-id'));
+    listBox.hideListEditForm(event.target.getAttribute('boardlistId'));
   }
 
   return true;
 }
 function hideListEdit(event) {
-  listBox.hideListEditForm(event.target.getAttribute('list-id'));
+  listBox.hideListEditForm(event.target.getAttribute('boardlistId'));
 }
 function showListEdit(event) {
-  listBox.showListEditForm(event.target.getAttribute('list-id'));
+  listBox.showListEditForm(event.target.getAttribute('boardlistId'));
 }
 function deleteList(event) {
   store.dispatch({
     type: 'DELETELIST',
-    listId: event.target.getAttribute('list-id'),
+    listId: event.target.getAttribute('boardlistId'),
   });
 }
 function makeSortable() {
   $('#boardDetails').sortable({
     handle: '.card-header',
     update() {
-      const newOrder = [];
+      const position = [];
       const lis = this.getElementsByClassName('m_listBox');
       for (let i = 0; i < lis.length; i += 1) {
-        newOrder.push((lis[i].getAttribute('list-id')));
+        position.push((lis[i].getAttribute('boardlistId')));
       }
 
 
       store.dispatch({
-        type: 'REORDERLIST',
-        order: newOrder,
+        type: 'REPOSITIONLIST',
+        position,
       });
     },
   });
   $('.m_card_list').sortable({
     connectWith: 'ul',
     update() {
-      const tempListId = this.getAttribute('list-id');
+      const tempListId = this.getAttribute('boardlistId');
 
       const tempCardList = [];
 
@@ -153,8 +153,8 @@ $('#boardDetails').on('keydown', 'input.cardInput', updateCard);
 
 store.subscribe(() => {
   const state = store.getState();
-  if (state.selectedBoardId >= 0) {
-    const listItems = state.boards[state.selectedBoardId].lists;
+  if (state.ibdSelected >= 0) {
+    const listItems = state.boards[state.ibdSelected].lists;
     listBox.showLists(listItems);
     makeSortable();
     if (state.selectedListId) {
