@@ -4,7 +4,7 @@ import 'jquery-ui';
 import listBox from './view';
 import store from '../state';
 
-require('jquery-ui/ui/widgets/sortable');
+const sortable = require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showEditCard(event) {

@@ -4,7 +4,7 @@ import 'jquery-ui';
 import boardsView from './view';
 import store from '../state';
 
-require('jquery-ui/ui/widgets/sortable');
+const sortable = require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showBoardDetails(event) {
@@ -44,14 +44,16 @@ function showBoardEdit(event) {
   boardsView.showBoardEditForm(event.target.getAttribute('board-id'));
 }
 function makeSortable() {
+  console.log("sortable dispatch");
   $('#boardList').sortable({
     update() {
+      console.log("sortable update");
       const newOrder = [];
-      const lis = this.getElementsByClassName('m_boardsBox');
+      const lis = this.getElementsByClassName('board_class');
       for (let i = 0; i < lis.length; i += 1) {
         newOrder.push((lis[i].getAttribute('board-id')));
       }
-
+      console.log('newOrder-'+newOrder);
       store.dispatch({
         type: 'RE_ORDER_BOARD',
         order: newOrder,
@@ -72,6 +74,7 @@ store.subscribe(() => {
     boardsView.hideBoards();
   } else {
     boardsView.showBoards(state.boards);
+    console.log("sortable");
     makeSortable();
   }
 });

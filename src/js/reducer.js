@@ -56,7 +56,9 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
     }
     case 'RE_ORDER_BOARD': {
       const { order } = action;
+      console.log("order-"+order);
       order.forEach((newIndex, index) => {
+        console.log(order);
         newState.boards[index] = currentState.boards[newIndex];
       });
       break;

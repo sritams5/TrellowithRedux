@@ -10,7 +10,7 @@ class Boards {
   }
 
   static createBoardOdd(boardName, boardId) {
-    return Boards.createDOMElement(`<div class="card m_boardsBox_odd" board-id="${boardId}">
+    return Boards.createDOMElement(`<div class="card m_boardsBox_odd board_class" board-id="${boardId}">
     <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">
     <button class="m_boardIcon boardEditIcon" board-id="${boardId}">
     <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="${boardId}">
@@ -29,7 +29,7 @@ class Boards {
   }
 
   static createBoardEven(boardName, boardId) {
-    return Boards.createDOMElement(`<div class="card m_boardsBox_even" board-id="${boardId}">
+    return Boards.createDOMElement(`<div class="card m_boardsBox_even board_class" board-id="${boardId}">
     <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">
     <button class="m_boardIcon boardEditIcon" board-id="${boardId}">
     <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="${boardId}">
