@@ -4,7 +4,7 @@ import 'jquery-ui';
 import boardsView from './view';
 import store from '../state';
 
-const sortable = require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showBoardDetails(event) {
@@ -66,7 +66,7 @@ $('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
 $('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
 $('#boardList').on('click', 'a', showBoardDetails);
 
-store.subscribe(()=>{
+store.subscribe(() => {
   const state = store.getState();
   if (state.selectedBoardId >= 0) {
     boardsView.hideBoards();

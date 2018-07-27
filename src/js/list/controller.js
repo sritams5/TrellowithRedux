@@ -4,7 +4,7 @@ import 'jquery-ui';
 import listBox from './view';
 import store from '../state';
 
-const sortable = require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showEditCard(event) {
@@ -151,7 +151,7 @@ $('#boardDetails').on('focusout', 'input.cardInput', hideEditCard);
 $('#boardDetails').on('click', '.cardDeleteIcon', deleteCard);
 $('#boardDetails').on('keydown', 'input.cardInput', updateCard);
 
-store.subscribe(()=>{
+store.subscribe(() => {
   const state = store.getState();
   if (state.selectedBoardId >= 0) {
     const listItems = state.boards[state.selectedBoardId].lists;

@@ -21039,6 +21039,17 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
+/***/ "./src/img/Instagram.png":
+/*!*******************************!*\
+  !*** ./src/img/Instagram.png ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "img/Instagram.png";
+
+/***/ }),
+
 /***/ "./src/img/add.png":
 /*!*************************!*\
   !*** ./src/img/add.png ***!
@@ -21094,6 +21105,39 @@ module.exports = "img/edit.png";
 
 /***/ }),
 
+/***/ "./src/img/evernote.png":
+/*!******************************!*\
+  !*** ./src/img/evernote.png ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "img/evernote.png";
+
+/***/ }),
+
+/***/ "./src/img/facebook.png":
+/*!******************************!*\
+  !*** ./src/img/facebook.png ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "img/facebook.png";
+
+/***/ }),
+
+/***/ "./src/img/google-plus.png":
+/*!*********************************!*\
+  !*** ./src/img/google-plus.png ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "img/google-plus.png";
+
+/***/ }),
+
 /***/ "./src/img/logo.png":
 /*!**************************!*\
   !*** ./src/img/logo.png ***!
@@ -21113,50 +21157,6 @@ module.exports = "img/logo.png";
 /***/ (function(module, exports) {
 
 module.exports = "img/modalback.jpg";
-
-/***/ }),
-
-/***/ "./src/img/social-1_logo-evernote.svg":
-/*!********************************************!*\
-  !*** ./src/img/social-1_logo-evernote.svg ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "img/social-1_logo-evernote.svg";
-
-/***/ }),
-
-/***/ "./src/img/social-1_logo-facebook.svg":
-/*!********************************************!*\
-  !*** ./src/img/social-1_logo-facebook.svg ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "img/social-1_logo-facebook.svg";
-
-/***/ }),
-
-/***/ "./src/img/social-1_logo-google-plus.svg":
-/*!***********************************************!*\
-  !*** ./src/img/social-1_logo-google-plus.svg ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "img/social-1_logo-google-plus.svg";
-
-/***/ }),
-
-/***/ "./src/img/social-1_logo-instagram.svg":
-/*!*********************************************!*\
-  !*** ./src/img/social-1_logo-instagram.svg ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "img/social-1_logo-instagram.svg";
 
 /***/ }),
 
@@ -21186,13 +21186,13 @@ __webpack_require__(/*! ../img/back4.jpg */ "./src/img/back4.jpg");
 
 __webpack_require__(/*! ../img/modalback.jpg */ "./src/img/modalback.jpg");
 
-__webpack_require__(/*! ../img/social-1_logo-evernote.svg */ "./src/img/social-1_logo-evernote.svg");
+__webpack_require__(/*! ../img/evernote.png */ "./src/img/evernote.png");
 
-__webpack_require__(/*! ../img/social-1_logo-facebook.svg */ "./src/img/social-1_logo-facebook.svg");
+__webpack_require__(/*! ../img/facebook.png */ "./src/img/facebook.png");
 
-__webpack_require__(/*! ../img/social-1_logo-google-plus.svg */ "./src/img/social-1_logo-google-plus.svg");
+__webpack_require__(/*! ../img/google-plus.png */ "./src/img/google-plus.png");
 
-__webpack_require__(/*! ../img/social-1_logo-instagram.svg */ "./src/img/social-1_logo-instagram.svg");
+__webpack_require__(/*! ../img/Instagram.png */ "./src/img/Instagram.png");
 
 __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 
@@ -21240,7 +21240,7 @@ var _state2 = _interopRequireDefault(_state);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+__webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 __webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
 
 function showBoardDetails(event) {
@@ -21346,7 +21346,7 @@ var Boards = function () {
 
       this.parent.innerHTML = '';
       boards.forEach(function (board, index) {
-        if (isOdd(parseInt(index) + 2)) {
+        if (Boards.isOdd(Number(index) + 2)) {
           _this.parent.appendChild(Boards.createBoardOdd(board.name, index));
         } else {
           _this.parent.appendChild(Boards.createBoardEven(board.name, index));
@@ -21394,14 +21394,16 @@ var Boards = function () {
     value: function createBoardEven(boardName, boardId) {
       return Boards.createDOMElement('<div class="card m_boardsBox_even" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
     }
+  }, {
+    key: 'isOdd',
+    value: function isOdd(num) {
+      return num % 2;
+    }
   }]);
 
   return Boards;
 }();
 
-function isOdd(num) {
-  return num % 2;
-}
 var boardsView = new Boards();
 
 exports.default = boardsView;
@@ -21432,7 +21434,7 @@ var _state2 = _interopRequireDefault(_state);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+__webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 __webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
 
 function showEditCard(event) {
@@ -21903,7 +21905,7 @@ function getCopyCurrentState(currentState) {
   if ('selectedBoardId' in currentState) {
     newState.selectedBoardId = currentState.selectedBoardId;
   } else {
-    newState.selectedBoardId = -99;
+    newState.selectedBoardId = -1;
   }
 
   newState.boards = [];
@@ -21938,20 +21940,20 @@ function getCopyCurrentState(currentState) {
 }
 
 function reducer() {
-  var currentState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { selectedBoardId: -999, boards: [] };
+  var currentState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { selectedBoardId: -1, boards: [] };
   var action = arguments[1];
 
   var newState = getCopyCurrentState(currentState);
   switch (action.type) {
     case 'LOAD_DATA':
       {
-        newState.selectedBoardId = -99;
+        newState.selectedBoardId = -1;
         newState.boards = action.data;
         break;
       }
     case 'SHOW_BOARDS':
       {
-        newState.selectedBoardId = -99;
+        newState.selectedBoardId = -1;
         break;
       }
     case 'SHOW_BOARD_DETAIL':
@@ -22189,7 +22191,7 @@ var _reducer2 = _interopRequireDefault(_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.createStore)(_reducer2.default, { selectedBoardId: -999, boards: [] });
+var store = (0, _redux.createStore)(_reducer2.default);
 
 exports.default = store;
 

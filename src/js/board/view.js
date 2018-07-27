@@ -27,6 +27,7 @@ class Boards {
     </div>
     </div>`);
   }
+
   static createBoardEven(boardName, boardId) {
     return Boards.createDOMElement(`<div class="card m_boardsBox_even" board-id="${boardId}">
     <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">
@@ -45,12 +46,15 @@ class Boards {
     </div>
     </div>`);
   }
+
+  static isOdd(num) { return num % 2; }
+
   showBoards(boards) {
     this.parent.innerHTML = '';
     boards.forEach((board, index) => {
-      if(isOdd(parseInt(index)+2)){
+      if (Boards.isOdd(Number(index) + 2)) {
         this.parent.appendChild(Boards.createBoardOdd(board.name, index));
-      }else{
+      } else {
         this.parent.appendChild(Boards.createBoardEven(board.name, index));
       }
     });
@@ -77,7 +81,7 @@ class Boards {
     form.classList.add('d-none');
   }
 }
-function isOdd(num) { return num % 2;}
+
 const boardsView = new Boards();
 
 export default boardsView;

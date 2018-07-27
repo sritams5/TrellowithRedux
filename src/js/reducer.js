@@ -4,7 +4,7 @@ function getCopyCurrentState(currentState) {
   if ('selectedBoardId' in currentState) {
     newState.selectedBoardId = currentState.selectedBoardId;
   } else {
-    newState.selectedBoardId = -99;
+    newState.selectedBoardId = -1;
   }
 
   newState.boards = [];
@@ -38,16 +38,16 @@ function getCopyCurrentState(currentState) {
   return newState;
 }
 
-function reducer(currentState = { selectedBoardId: -999, boards: [] }, action) {
+function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
   const newState = getCopyCurrentState(currentState);
   switch (action.type) {
     case 'LOAD_DATA': {
-      newState.selectedBoardId = -99;
+      newState.selectedBoardId = -1;
       newState.boards = action.data;
       break;
     }
     case 'SHOW_BOARDS': {
-      newState.selectedBoardId = -99;
+      newState.selectedBoardId = -1;
       break;
     }
     case 'SHOW_BOARD_DETAIL': {

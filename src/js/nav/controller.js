@@ -52,7 +52,7 @@ $('#trelloNavBar').on('click', '#createListBtn', createList);
 $('#trelloNavBar').on('keydown', '#createListInput', createListKey);
 $('#trelloNavBar').on('click', '#myTrelloLogo', showBoardList);
 
-store.subscribe(()=>{
+store.subscribe(() => {
   const state = store.getState();
   if (state.selectedBoardId >= 0) {
     nav.showNavForBoardDetails(state.boards[state.selectedBoardId].name);

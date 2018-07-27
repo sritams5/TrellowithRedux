@@ -66,7 +66,7 @@ class NavHeader {
     this.parent.innerHTML = '';
     this.parent.appendChild(NavHeader.createDOMElement(this.trelloLogo));
     const headerForm = NavHeader.createDOMElement(this.headerForm)
-    .appendChild(NavHeader.createDOMElement(this.addBoardForm));
+      .appendChild(NavHeader.createDOMElement(this.addBoardForm));
     this.parent.appendChild(NavHeader.createDOMElement(this.modalBoardForm));
     this.parent.appendChild(headerForm);
   }
@@ -76,7 +76,7 @@ class NavHeader {
     this.parent.appendChild(NavHeader.createDOMElement(this.trelloLogo));
     this.parent.appendChild(this.createBoardHeader(boardName));
     const headerForm = NavHeader.createDOMElement(this.headerForm)
-    .appendChild(NavHeader.createDOMElement(this.addListForm));
+      .appendChild(NavHeader.createDOMElement(this.addListForm));
     this.parent.appendChild(NavHeader.createDOMElement(this.modalListForm));
     this.parent.appendChild(headerForm);
   }
