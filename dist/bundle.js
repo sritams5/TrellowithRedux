@@ -21200,26 +21200,26 @@ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 __webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
 
-__webpack_require__(/*! ./nav/view */ "./src/js/nav/view.js");
+__webpack_require__(/*! ./navbar/view */ "./src/js/navbar/view.js");
 
-__webpack_require__(/*! ./nav/controller */ "./src/js/nav/controller.js");
+__webpack_require__(/*! ./navbar/controller */ "./src/js/navbar/controller.js");
 
-__webpack_require__(/*! ./board/view */ "./src/js/board/view.js");
+__webpack_require__(/*! ./trelloboard/view */ "./src/js/trelloboard/view.js");
 
-__webpack_require__(/*! ./board/controller */ "./src/js/board/controller.js");
+__webpack_require__(/*! ./trelloboard/controller */ "./src/js/trelloboard/controller.js");
 
-__webpack_require__(/*! ./list/view */ "./src/js/list/view.js");
+__webpack_require__(/*! ./boardlist/view */ "./src/js/boardlist/view.js");
 
-__webpack_require__(/*! ./list/controller */ "./src/js/list/controller.js");
+__webpack_require__(/*! ./boardlist/controller */ "./src/js/boardlist/controller.js");
 
 __webpack_require__(/*! ./service */ "./src/js/service.js");
 
 /***/ }),
 
-/***/ "./src/js/board/controller.js":
-/*!************************************!*\
-  !*** ./src/js/board/controller.js ***!
-  \************************************/
+/***/ "./src/js/boardlist/controller.js":
+/*!****************************************!*\
+  !*** ./src/js/boardlist/controller.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21230,201 +21230,7 @@ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 __webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
 
-var _view = __webpack_require__(/*! ./view */ "./src/js/board/view.js");
-
-var _view2 = _interopRequireDefault(_view);
-
-var _state = __webpack_require__(/*! ../state */ "./src/js/state.js");
-
-var _state2 = _interopRequireDefault(_state);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-__webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
-__webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
-
-function showBoardDetails(event) {
-  _state2.default.dispatch({
-    type: 'SHOW_BOARD_DETAIL',
-    boardId: event.target.getAttribute('board-id')
-  });
-}
-function deleteBoard(event) {
-  _state2.default.dispatch({
-    type: 'DEL_BOARD',
-    boardId: event.target.getAttribute('board-id')
-  });
-}
-
-function hideBoardEditForm(event) {
-  _view2.default.hideBoardEditForm(event.target.getAttribute('board-id'));
-}
-
-function updateBoardDetail(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    _state2.default.dispatch({
-      type: 'UPDT_BOARD',
-      name: event.target.value,
-      boardId: event.target.getAttribute('board-id')
-    });
-    return false;
-  }if (event.keyCode === 27) {
-    _view2.default.hideBoardEditForm(event.target.getAttribute('board-id'));
-  }
-  return true;
-}
-
-function showBoardEdit(event) {
-  _view2.default.showBoardEditForm(event.target.getAttribute('board-id'));
-}
-function makeSortable() {
-  $('#boardList').sortable({
-    update: function update() {
-      var newOrder = [];
-      var lis = this.getElementsByClassName('m_boardsBox');
-      for (var i = 0; i < lis.length; i += 1) {
-        newOrder.push(lis[i].getAttribute('board-id'));
-      }
-
-      _state2.default.dispatch({
-        type: 'RE_ORDER_BOARD',
-        order: newOrder
-      });
-    }
-  });
-}
-
-$('#boardList').on('click', '.boardEditIcon', showBoardEdit);
-$('#boardList').on('click', '.boardDeleteIcon', deleteBoard);
-$('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
-$('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
-$('#boardList').on('click', 'a', showBoardDetails);
-
-_state2.default.subscribe(function () {
-  var state = _state2.default.getState();
-  if (state.selectedBoardId >= 0) {
-    _view2.default.hideBoards();
-  } else {
-    _view2.default.showBoards(state.boards);
-    makeSortable();
-  }
-});
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
-/***/ "./src/js/board/view.js":
-/*!******************************!*\
-  !*** ./src/js/board/view.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Boards = function () {
-  function Boards() {
-    _classCallCheck(this, Boards);
-
-    this.parent = document.getElementById('boardList');
-  }
-
-  _createClass(Boards, [{
-    key: 'showBoards',
-    value: function showBoards(boards) {
-      var _this = this;
-
-      this.parent.innerHTML = '';
-      boards.forEach(function (board, index) {
-        if (Boards.isOdd(Number(index) + 2)) {
-          _this.parent.appendChild(Boards.createBoardOdd(board.name, index));
-        } else {
-          _this.parent.appendChild(Boards.createBoardEven(board.name, index));
-        }
-      });
-      this.parent.className = 'container d-flex flex-wrap flex-column flex-md-row';
-    }
-  }, {
-    key: 'hideBoards',
-    value: function hideBoards() {
-      this.parent.className = 'container flex-wrap flex-column flex-md-row d-none';
-    }
-  }, {
-    key: 'showBoardEditForm',
-    value: function showBoardEditForm(boardId) {
-      var a = this.parent.querySelector('div[board-id="' + boardId + '"].card-body a');
-      a.classList.add('d-none');
-      var form = this.parent.querySelector('div[board-id="' + boardId + '"].card-body form');
-      form.classList.remove('d-none');
-      var formInput = this.parent.querySelector('div[board-id="' + boardId + '"].card-body input');
-      formInput.focus();
-    }
-  }, {
-    key: 'hideBoardEditForm',
-    value: function hideBoardEditForm(boardId) {
-      var a = this.parent.querySelector('div[board-id="' + boardId + '"].card-body a');
-      a.classList.remove('d-none');
-      var form = this.parent.querySelector('div[board-id="' + boardId + '"].card-body form');
-      form.classList.add('d-none');
-    }
-  }], [{
-    key: 'createDOMElement',
-    value: function createDOMElement(html) {
-      var template = document.createElement('template');
-      template.innerHTML = html;
-      return template.content.firstElementChild;
-    }
-  }, {
-    key: 'createBoardOdd',
-    value: function createBoardOdd(boardName, boardId) {
-      return Boards.createDOMElement('<div class="card m_boardsBox_odd" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
-    }
-  }, {
-    key: 'createBoardEven',
-    value: function createBoardEven(boardName, boardId) {
-      return Boards.createDOMElement('<div class="card m_boardsBox_even" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
-    }
-  }, {
-    key: 'isOdd',
-    value: function isOdd(num) {
-      return num % 2;
-    }
-  }]);
-
-  return Boards;
-}();
-
-var boardsView = new Boards();
-
-exports.default = boardsView;
-
-/***/ }),
-
-/***/ "./src/js/list/controller.js":
-/*!***********************************!*\
-  !*** ./src/js/list/controller.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {
-
-__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-
-__webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
-
-var _view = __webpack_require__(/*! ./view */ "./src/js/list/view.js");
+var _view = __webpack_require__(/*! ./view */ "./src/js/boardlist/view.js");
 
 var _view2 = _interopRequireDefault(_view);
 
@@ -21596,10 +21402,10 @@ _state2.default.subscribe(function () {
 
 /***/ }),
 
-/***/ "./src/js/list/view.js":
-/*!*****************************!*\
-  !*** ./src/js/list/view.js ***!
-  \*****************************/
+/***/ "./src/js/boardlist/view.js":
+/*!**********************************!*\
+  !*** ./src/js/boardlist/view.js ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21729,17 +21535,17 @@ exports.default = listBox;
 
 /***/ }),
 
-/***/ "./src/js/nav/controller.js":
-/*!**********************************!*\
-  !*** ./src/js/nav/controller.js ***!
-  \**********************************/
+/***/ "./src/js/navbar/controller.js":
+/*!*************************************!*\
+  !*** ./src/js/navbar/controller.js ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-var _view = __webpack_require__(/*! ./view */ "./src/js/nav/view.js");
+var _view = __webpack_require__(/*! ./view */ "./src/js/navbar/view.js");
 
 var _view2 = _interopRequireDefault(_view);
 
@@ -21811,10 +21617,10 @@ _state2.default.subscribe(function () {
 
 /***/ }),
 
-/***/ "./src/js/nav/view.js":
-/*!****************************!*\
-  !*** ./src/js/nav/view.js ***!
-  \****************************/
+/***/ "./src/js/navbar/view.js":
+/*!*******************************!*\
+  !*** ./src/js/navbar/view.js ***!
+  \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22194,6 +22000,200 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var store = (0, _redux.createStore)(_reducer2.default);
 
 exports.default = store;
+
+/***/ }),
+
+/***/ "./src/js/trelloboard/controller.js":
+/*!******************************************!*\
+  !*** ./src/js/trelloboard/controller.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+__webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
+
+var _view = __webpack_require__(/*! ./view */ "./src/js/trelloboard/view.js");
+
+var _view2 = _interopRequireDefault(_view);
+
+var _state = __webpack_require__(/*! ../state */ "./src/js/state.js");
+
+var _state2 = _interopRequireDefault(_state);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+__webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+__webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js");
+
+function showBoardDetails(event) {
+  _state2.default.dispatch({
+    type: 'SHOW_BOARD_DETAIL',
+    boardId: event.target.getAttribute('board-id')
+  });
+}
+function deleteBoard(event) {
+  _state2.default.dispatch({
+    type: 'DEL_BOARD',
+    boardId: event.target.getAttribute('board-id')
+  });
+}
+
+function hideBoardEditForm(event) {
+  _view2.default.hideBoardEditForm(event.target.getAttribute('board-id'));
+}
+
+function updateBoardDetail(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    _state2.default.dispatch({
+      type: 'UPDT_BOARD',
+      name: event.target.value,
+      boardId: event.target.getAttribute('board-id')
+    });
+    return false;
+  }if (event.keyCode === 27) {
+    _view2.default.hideBoardEditForm(event.target.getAttribute('board-id'));
+  }
+  return true;
+}
+
+function showBoardEdit(event) {
+  _view2.default.showBoardEditForm(event.target.getAttribute('board-id'));
+}
+function makeSortable() {
+  $('#boardList').sortable({
+    update: function update() {
+      var newOrder = [];
+      var lis = this.getElementsByClassName('m_boardsBox');
+      for (var i = 0; i < lis.length; i += 1) {
+        newOrder.push(lis[i].getAttribute('board-id'));
+      }
+
+      _state2.default.dispatch({
+        type: 'RE_ORDER_BOARD',
+        order: newOrder
+      });
+    }
+  });
+}
+
+$('#boardList').on('click', '.boardEditIcon', showBoardEdit);
+$('#boardList').on('click', '.boardDeleteIcon', deleteBoard);
+$('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
+$('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
+$('#boardList').on('click', 'a', showBoardDetails);
+
+_state2.default.subscribe(function () {
+  var state = _state2.default.getState();
+  if (state.selectedBoardId >= 0) {
+    _view2.default.hideBoards();
+  } else {
+    _view2.default.showBoards(state.boards);
+    makeSortable();
+  }
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/trelloboard/view.js":
+/*!************************************!*\
+  !*** ./src/js/trelloboard/view.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Boards = function () {
+  function Boards() {
+    _classCallCheck(this, Boards);
+
+    this.parent = document.getElementById('boardList');
+  }
+
+  _createClass(Boards, [{
+    key: 'showBoards',
+    value: function showBoards(boards) {
+      var _this = this;
+
+      this.parent.innerHTML = '';
+      boards.forEach(function (board, index) {
+        if (Boards.isOdd(Number(index) + 2)) {
+          _this.parent.appendChild(Boards.createBoardOdd(board.name, index));
+        } else {
+          _this.parent.appendChild(Boards.createBoardEven(board.name, index));
+        }
+      });
+      this.parent.className = 'container d-flex flex-wrap flex-column flex-md-row';
+    }
+  }, {
+    key: 'hideBoards',
+    value: function hideBoards() {
+      this.parent.className = 'container flex-wrap flex-column flex-md-row d-none';
+    }
+  }, {
+    key: 'showBoardEditForm',
+    value: function showBoardEditForm(boardId) {
+      var a = this.parent.querySelector('div[board-id="' + boardId + '"].card-body a');
+      a.classList.add('d-none');
+      var form = this.parent.querySelector('div[board-id="' + boardId + '"].card-body form');
+      form.classList.remove('d-none');
+      var formInput = this.parent.querySelector('div[board-id="' + boardId + '"].card-body input');
+      formInput.focus();
+    }
+  }, {
+    key: 'hideBoardEditForm',
+    value: function hideBoardEditForm(boardId) {
+      var a = this.parent.querySelector('div[board-id="' + boardId + '"].card-body a');
+      a.classList.remove('d-none');
+      var form = this.parent.querySelector('div[board-id="' + boardId + '"].card-body form');
+      form.classList.add('d-none');
+    }
+  }], [{
+    key: 'createDOMElement',
+    value: function createDOMElement(html) {
+      var template = document.createElement('template');
+      template.innerHTML = html;
+      return template.content.firstElementChild;
+    }
+  }, {
+    key: 'createBoardOdd',
+    value: function createBoardOdd(boardName, boardId) {
+      return Boards.createDOMElement('<div class="card m_boardsBox_odd" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
+    }
+  }, {
+    key: 'createBoardEven',
+    value: function createBoardEven(boardName, boardId) {
+      return Boards.createDOMElement('<div class="card m_boardsBox_even" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
+    }
+  }, {
+    key: 'isOdd',
+    value: function isOdd(num) {
+      return num % 2;
+    }
+  }]);
+
+  return Boards;
+}();
+
+var boardsView = new Boards();
+
+exports.default = boardsView;
 
 /***/ }),
 
