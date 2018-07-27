@@ -1,4 +1,4 @@
-
+CREATEBOARD
 function getCopyCurrentState(currentState) {
   const newState = {};
   if ('selectedBoardId' in currentState) {
@@ -71,7 +71,7 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       });
       break;
     }
-    case 'ADDBOARD': {
+    case 'CREATEBOARD': {
       const { name } = action;
       const boardLength = newState.boards.length;
       newState.boards[boardLength] = {

@@ -11,7 +11,7 @@ function createBoard() {
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
   if (createBoardInput.value) {
-    store.dispatch({ type: 'ADDBOARD', name: createBoardInput.value });
+    store.dispatch({ type: 'CREATEBOARD', name: createBoardInput.value });
   }
 }
 
