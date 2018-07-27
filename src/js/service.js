@@ -9,14 +9,14 @@ function loadBoards() {
       success(data) {
         const boards = JSON.parse(data.data);
         store.dispatch({
-          type: 'LOAD_DATA',
+          type: 'LOADDATA',
           data: boards,
         });
       },
-      error(jqXhr) { 
+      error(jqXhr) {
         if (jqXhr.status === 404) {
           store.dispatch({
-            type: 'LOAD_DATA',
+            type: 'LOADDATA',
             data: [],
           });
         }

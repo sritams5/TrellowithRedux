@@ -9,13 +9,13 @@ require('jquery-ui/ui/disable-selection');
 
 function showBoardDetails(event) {
   store.dispatch({
-    type: 'SHOW_BOARD_DETAIL',
+    type: 'SHOWBOARDDETAIL',
     boardId: event.target.getAttribute('board-id'),
   });
 }
 function deleteBoard(event) {
   store.dispatch({
-    type: 'DEL_BOARD',
+    type: 'DELETEBOARD',
     boardId: event.target.getAttribute('board-id'),
   });
 }
@@ -28,7 +28,7 @@ function updateBoardDetail(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     store.dispatch({
-      type: 'UPDT_BOARD',
+      type: 'UPDATEBOARD',
       name: event.target.value,
       boardId: event.target.getAttribute('board-id'),
     });
@@ -55,7 +55,7 @@ function makeSortable() {
       }
       console.log('newOrder-'+newOrder);
       store.dispatch({
-        type: 'RE_ORDER_BOARD',
+        type: 'REORDERBOARD',
         order: newOrder,
       });
     },

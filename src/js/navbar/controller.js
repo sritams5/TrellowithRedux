@@ -2,7 +2,7 @@ import nav from './view';
 import store from '../state';
 
 function showBoardList() {
-  store.dispatch({ type: 'SHOW_BOARDS' });
+  store.dispatch({ type: 'SHOWBOARDS' });
 }
 
 function createBoard() {
@@ -11,7 +11,7 @@ function createBoard() {
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
   if (createBoardInput.value) {
-    store.dispatch({ type: 'ADD_BOARD', name: createBoardInput.value });
+    store.dispatch({ type: 'ADDBOARD', name: createBoardInput.value });
   }
 }
 
@@ -30,7 +30,7 @@ function createList() {
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
   if (createListInput.value) {
-    store.dispatch({ type: 'ADD_LIST', name: createListInput.value });
+    store.dispatch({ type: 'ADDLIST', name: createListInput.value });
   }
 }
 

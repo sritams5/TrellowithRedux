@@ -41,20 +41,20 @@ function getCopyCurrentState(currentState) {
 function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
   const newState = getCopyCurrentState(currentState);
   switch (action.type) {
-    case 'LOAD_DATA': {
+    case 'LOADDATA': {
       newState.selectedBoardId = -1;
       newState.boards = action.data;
       break;
     }
-    case 'SHOW_BOARDS': {
+    case 'SHOWBOARDS': {
       newState.selectedBoardId = -1;
       break;
     }
-    case 'SHOW_BOARD_DETAIL': {
+    case 'SHOWBOARDDETAIL': {
       newState.selectedBoardId = action.boardId;
       break;
     }
-    case 'RE_ORDER_BOARD': {
+    case 'REORDERBOARD': {
       const { order } = action;
       console.log("order-"+order);
       order.forEach((newIndex, index) => {
@@ -63,7 +63,7 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       });
       break;
     }
-    case 'RE_ORDER_LIST': {
+    case 'REORDERLIST': {
       const { order } = action;
       const boardId = currentState.selectedBoardId;
       order.forEach((newIndex, index) => {
@@ -71,7 +71,7 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       });
       break;
     }
-    case 'ADD_BOARD': {
+    case 'ADDBOARD': {
       const { name } = action;
       const boardLength = newState.boards.length;
       newState.boards[boardLength] = {
@@ -80,17 +80,17 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       };
       break;
     }
-    case 'DEL_BOARD': {
+    case 'DELETEBOARD': {
       const { boardId } = action;
       newState.boards.splice(boardId, 1);
       break;
     }
-    case 'UPDT_BOARD': {
+    case 'UPDATEBOARD': {
       const { boardId, name } = action;
       newState.boards[boardId].name = name;
       break;
     }
-    case 'ADD_LIST': {
+    case 'ADDLIST': {
       const { name } = action;
       const boardId = currentState.selectedBoardId;
       newState.boards[boardId].lists[newState.boards[boardId].lists.length] = {
@@ -99,19 +99,19 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       };
       break;
     }
-    case 'UPDT_LIST': {
+    case 'UPDATELIST': {
       const { name, listId } = action;
       const boardId = currentState.selectedBoardId;
       newState.boards[boardId].lists[listId].name = name;
       break;
     }
-    case 'DEL_LIST': {
+    case 'DELETELIST': {
       const { listId } = action;
       const boardId = currentState.selectedBoardId;
       newState.boards[boardId].lists.splice(listId, 1);
       break;
     }
-    case 'ADD_CARD': {
+    case 'ADDCARD': {
       const boardId = currentState.selectedBoardId;
       const { listId, name } = action;
       const cardlength = newState.boards[boardId].lists[listId].cards.length;
@@ -121,7 +121,7 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       newState.selectedListId = listId;
       break;
     }
-    case 'RESET_LIST': {
+    case 'RESETLIST': {
       const boardId = currentState.selectedBoardId;
       const { listId, cards } = action;
       newState.boards[boardId].lists[listId].cards = [];
@@ -133,13 +133,13 @@ function reducer(currentState = { selectedBoardId: -1, boards: [] }, action) {
       });
       break;
     }
-    case 'DEL_CARD': {
+    case 'DELETECARD': {
       const boardId = currentState.selectedBoardId;
       const { listId, cardId } = action;
       newState.boards[boardId].lists[listId].cards.splice(cardId, 1);
       break;
     }
-    case 'UPDT_CARD': {
+    case 'UPDATECARD': {
       const boardId = currentState.selectedBoardId;
       const { listId, cardId, name } = action;
       newState.boards[boardId].lists[listId].cards[cardId].name = name;

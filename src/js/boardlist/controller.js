@@ -24,7 +24,7 @@ function updateCard(event) {
     const listId = event.target.getAttribute('list-id');
     const cardId = event.target.getAttribute('card-id');
     store.dispatch({
-      type: 'UPDT_CARD',
+      type: 'UPDATECARD',
       name: event.target.value,
       listId,
       cardId,
@@ -41,7 +41,7 @@ function deleteCard(event) {
   const listId = event.target.getAttribute('list-id');
   const cardId = event.target.getAttribute('card-id');
   store.dispatch({
-    type: 'DEL_CARD',
+    type: 'DELETECARD',
     listId,
     cardId,
   });
@@ -50,7 +50,7 @@ function addNewCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     store.dispatch({
-      type: 'ADD_CARD',
+      type: 'ADDCARD',
       name: event.target.value,
       listId: event.target.getAttribute('list-id'),
     });
@@ -73,7 +73,7 @@ function updateListDetails(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     store.dispatch({
-      type: 'UPDT_LIST',
+      type: 'UPDATELIST',
       name: event.target.value,
       listId: event.target.getAttribute('list-id'),
     });
@@ -92,7 +92,7 @@ function showListEdit(event) {
 }
 function deleteList(event) {
   store.dispatch({
-    type: 'DEL_LIST',
+    type: 'DELETELIST',
     listId: event.target.getAttribute('list-id'),
   });
 }
@@ -108,7 +108,7 @@ function makeSortable() {
 
 
       store.dispatch({
-        type: 'RE_ORDER_LIST',
+        type: 'REORDERLIST',
         order: newOrder,
       });
     },
@@ -128,7 +128,7 @@ function makeSortable() {
       }
 
       store.dispatch({
-        type: 'RESET_LIST',
+        type: 'RESETLIST',
         cards: tempCardList,
         listId: tempListId,
       });

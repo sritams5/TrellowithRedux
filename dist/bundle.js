@@ -21260,7 +21260,7 @@ function updateCard(event) {
     var listId = event.target.getAttribute('list-id');
     var cardId = event.target.getAttribute('card-id');
     _state2.default.dispatch({
-      type: 'UPDT_CARD',
+      type: 'UPDATECARD',
       name: event.target.value,
       listId: listId,
       cardId: cardId
@@ -21277,7 +21277,7 @@ function deleteCard(event) {
   var listId = event.target.getAttribute('list-id');
   var cardId = event.target.getAttribute('card-id');
   _state2.default.dispatch({
-    type: 'DEL_CARD',
+    type: 'DELETECARD',
     listId: listId,
     cardId: cardId
   });
@@ -21286,7 +21286,7 @@ function addNewCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     _state2.default.dispatch({
-      type: 'ADD_CARD',
+      type: 'ADDCARD',
       name: event.target.value,
       listId: event.target.getAttribute('list-id')
     });
@@ -21309,7 +21309,7 @@ function updateListDetails(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     _state2.default.dispatch({
-      type: 'UPDT_LIST',
+      type: 'UPDATELIST',
       name: event.target.value,
       listId: event.target.getAttribute('list-id')
     });
@@ -21328,7 +21328,7 @@ function showListEdit(event) {
 }
 function deleteList(event) {
   _state2.default.dispatch({
-    type: 'DEL_LIST',
+    type: 'DELETELIST',
     listId: event.target.getAttribute('list-id')
   });
 }
@@ -21343,7 +21343,7 @@ function makeSortable() {
       }
 
       _state2.default.dispatch({
-        type: 'RE_ORDER_LIST',
+        type: 'REORDERLIST',
         order: newOrder
       });
     }
@@ -21363,7 +21363,7 @@ function makeSortable() {
       }
 
       _state2.default.dispatch({
-        type: 'RESET_LIST',
+        type: 'RESETLIST',
         cards: tempCardList,
         listId: tempListId
       });
@@ -21556,7 +21556,7 @@ var _state2 = _interopRequireDefault(_state);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function showBoardList() {
-  _state2.default.dispatch({ type: 'SHOW_BOARDS' });
+  _state2.default.dispatch({ type: 'SHOWBOARDS' });
 }
 
 function createBoard() {
@@ -21565,7 +21565,7 @@ function createBoard() {
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
   if (createBoardInput.value) {
-    _state2.default.dispatch({ type: 'ADD_BOARD', name: createBoardInput.value });
+    _state2.default.dispatch({ type: 'ADDBOARD', name: createBoardInput.value });
   }
 }
 
@@ -21584,7 +21584,7 @@ function createList() {
   $('body').removeClass('modal-open');
   $('.modal-backdrop').remove();
   if (createListInput.value) {
-    _state2.default.dispatch({ type: 'ADD_LIST', name: createListInput.value });
+    _state2.default.dispatch({ type: 'ADDLIST', name: createListInput.value });
   }
 }
 
@@ -21751,33 +21751,34 @@ function reducer() {
 
   var newState = getCopyCurrentState(currentState);
   switch (action.type) {
-    case 'LOAD_DATA':
+    case 'LOADDATA':
       {
         newState.selectedBoardId = -1;
         newState.boards = action.data;
         break;
       }
-    case 'SHOW_BOARDS':
+    case 'SHOWBOARDS':
       {
         newState.selectedBoardId = -1;
         break;
       }
-    case 'SHOW_BOARD_DETAIL':
+    case 'SHOWBOARDDETAIL':
       {
         newState.selectedBoardId = action.boardId;
         break;
       }
-    case 'RE_ORDER_BOARD':
+    case 'REORDERBOARD':
       {
         var order = action.order;
 
+        console.log("order-" + order);
         order.forEach(function (newIndex, index) {
           console.log(order);
           newState.boards[index] = currentState.boards[newIndex];
         });
         break;
       }
-    case 'RE_ORDER_LIST':
+    case 'REORDERLIST':
       {
         var _order = action.order;
 
@@ -21787,7 +21788,7 @@ function reducer() {
         });
         break;
       }
-    case 'ADD_BOARD':
+    case 'ADDBOARD':
       {
         var name = action.name;
 
@@ -21798,14 +21799,14 @@ function reducer() {
         };
         break;
       }
-    case 'DEL_BOARD':
+    case 'DELETEBOARD':
       {
         var _boardId = action.boardId;
 
         newState.boards.splice(_boardId, 1);
         break;
       }
-    case 'UPDT_BOARD':
+    case 'UPDATEBOARD':
       {
         var _boardId2 = action.boardId,
             _name = action.name;
@@ -21813,7 +21814,7 @@ function reducer() {
         newState.boards[_boardId2].name = _name;
         break;
       }
-    case 'ADD_LIST':
+    case 'ADDLIST':
       {
         var _name2 = action.name;
 
@@ -21824,7 +21825,7 @@ function reducer() {
         };
         break;
       }
-    case 'UPDT_LIST':
+    case 'UPDATELIST':
       {
         var _name3 = action.name,
             listId = action.listId;
@@ -21833,7 +21834,7 @@ function reducer() {
         newState.boards[_boardId4].lists[listId].name = _name3;
         break;
       }
-    case 'DEL_LIST':
+    case 'DELETELIST':
       {
         var _listId = action.listId;
 
@@ -21841,7 +21842,7 @@ function reducer() {
         newState.boards[_boardId5].lists.splice(_listId, 1);
         break;
       }
-    case 'ADD_CARD':
+    case 'ADDCARD':
       {
         var _boardId6 = currentState.selectedBoardId;
         var _listId2 = action.listId,
@@ -21854,7 +21855,7 @@ function reducer() {
         newState.selectedListId = _listId2;
         break;
       }
-    case 'RESET_LIST':
+    case 'RESETLIST':
       {
         var _boardId7 = currentState.selectedBoardId;
         var _listId3 = action.listId,
@@ -21869,7 +21870,7 @@ function reducer() {
         });
         break;
       }
-    case 'DEL_CARD':
+    case 'DELETECARD':
       {
         var _boardId8 = currentState.selectedBoardId;
         var _listId4 = action.listId,
@@ -21878,7 +21879,7 @@ function reducer() {
         newState.boards[_boardId8].lists[_listId4].cards.splice(cardId, 1);
         break;
       }
-    case 'UPDT_CARD':
+    case 'UPDATECARD':
       {
         var _boardId9 = currentState.selectedBoardId;
         var _listId5 = action.listId,
@@ -21928,14 +21929,14 @@ function loadBoards() {
     success: function success(data) {
       var boards = JSON.parse(data.data);
       _state2.default.dispatch({
-        type: 'LOAD_DATA',
+        type: 'LOADDATA',
         data: boards
       });
     },
     error: function error(jqXhr) {
       if (jqXhr.status === 404) {
         _state2.default.dispatch({
-          type: 'LOAD_DATA',
+          type: 'LOADDATA',
           data: []
         });
       }
@@ -22033,13 +22034,13 @@ __webpack_require__(/*! jquery-ui/ui/disable-selection */ "./node_modules/jquery
 
 function showBoardDetails(event) {
   _state2.default.dispatch({
-    type: 'SHOW_BOARD_DETAIL',
+    type: 'SHOWBOARDDETAIL',
     boardId: event.target.getAttribute('board-id')
   });
 }
 function deleteBoard(event) {
   _state2.default.dispatch({
-    type: 'DEL_BOARD',
+    type: 'DELETEBOARD',
     boardId: event.target.getAttribute('board-id')
   });
 }
@@ -22052,7 +22053,7 @@ function updateBoardDetail(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     _state2.default.dispatch({
-      type: 'UPDT_BOARD',
+      type: 'UPDATEBOARD',
       name: event.target.value,
       boardId: event.target.getAttribute('board-id')
     });
@@ -22072,12 +22073,13 @@ function makeSortable() {
     update: function update() {
       console.log("sortable update");
       var newOrder = [];
-      var lis = this.getElementsByClassName('m_boardsBox');
+      var lis = this.getElementsByClassName('board_class');
       for (var i = 0; i < lis.length; i += 1) {
         newOrder.push(lis[i].getAttribute('board-id'));
       }
+      console.log('newOrder-' + newOrder);
       _state2.default.dispatch({
-        type: 'RE_ORDER_BOARD',
+        type: 'REORDERBOARD',
         order: newOrder
       });
     }
@@ -22177,12 +22179,12 @@ var Boards = function () {
   }, {
     key: 'createBoardOdd',
     value: function createBoardOdd(boardName, boardId) {
-      return Boards.createDOMElement('<div class="card m_boardsBox_odd" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
+      return Boards.createDOMElement('<div class="card m_boardsBox_odd board_class" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
     }
   }, {
     key: 'createBoardEven',
     value: function createBoardEven(boardName, boardId) {
-      return Boards.createDOMElement('<div class="card m_boardsBox_even" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
+      return Boards.createDOMElement('<div class="card m_boardsBox_even board_class" board-id="' + boardId + '">\n    <div class="d-flex justify-content-end mt-1 mr-1 m_boardCardHeader">\n    <button class="m_boardIcon boardEditIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Edit Overview" src="img/edit.png" board-id="' + boardId + '">\n    </button>\n    <button class="m_boardIcon boardDeleteIcon" board-id="' + boardId + '">\n    <img class="m_icon" alt="Delete Overview" src="img/delete.png" board-id="' + boardId + '">\n    </button>\n    </div>\n    <div class="card-body pt-1" board-id="' + boardId + '">\n    <a href="#" board-id="' + boardId + '">\n    <h5 class="card-title centered" board-id="' + boardId + '">' + boardName + '</h5>\n    </a>\n    <form class="form-inline d-none"><input class="form-control w-100" board-id="' + boardId + '" value="' + boardName + '"></form>\n    </div>\n    </div>');
     }
   }, {
     key: 'isOdd',
