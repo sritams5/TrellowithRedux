@@ -1,0 +1,8 @@
+{
+  "boards": [
+    {
+      "data": "[{\"name\":\"board 1\",\"lists\":[]},{\"name\":\"board 2\",\"lists\":[{\"name\":\"task 1\",\"cards\":[{\"name\":\"card 1 1\"}]},{\"name\":\"task 2\",\"cards\":[{\"name\":\"card 2\"}]},{\"name\":\"task 3\",\"cards\":[{\"name\":\"card 3\"}]}]}]",
+      "id": 1
+    }
+  ]
+}
