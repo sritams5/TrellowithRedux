@@ -8,8 +8,6 @@ const sortable = require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showBoardDetails(event) {
-  // console.log('In controller showBoardDetails');
-  // console.log(event);
   store.dispatch({
     type: 'SHOW_BOARD_DETAIL',
     boardId: event.target.getAttribute('board-id'),
@@ -43,40 +41,23 @@ function updateBoardDetail(event) {
 
 
 function showBoardEdit(event) {
-  // console.log('i am in showBoardEdit');
   boardsView.showBoardEditForm(event.target.getAttribute('board-id'));
 }
 function makeSortable() {
   $('#boardList').sortable({
     update() {
-      // console.log('board list update event');
-      // console.log(event);
-      // console.log(this);
       const newOrder = [];
       const lis = this.getElementsByClassName('m_boardsBox');
       for (let i = 0; i < lis.length; i += 1) {
-        // console.log(lis[i]);
         newOrder.push((lis[i].getAttribute('board-id')));
       }
 
-      // console.log(newOrder);
       store.dispatch({
         type: 'RE_ORDER_BOARD',
         order: newOrder,
       });
     },
   });
-}
-function render() {
-  // console.log('In boards controller');
-  const state = store.getState();
-  // console.log(state.boards);
-  if (state.selectedBoardId >= 0) {
-    boardsView.hideBoards();
-  } else {
-    boardsView.showBoards(state.boards);
-    makeSortable();
-  }
 }
 
 $('#boardList').on('click', '.boardEditIcon', showBoardEdit);
@@ -85,4 +66,12 @@ $('#boardList').on('keydown', 'input.form-control', updateBoardDetail);
 $('#boardList').on('focusout', 'input.form-control', hideBoardEditForm);
 $('#boardList').on('click', 'a', showBoardDetails);
 
-store.subscribe(render);
+store.subscribe(()=>{
+  const state = store.getState();
+  if (state.selectedBoardId >= 0) {
+    boardsView.hideBoards();
+  } else {
+    boardsView.showBoards(state.boards);
+    makeSortable();
+  }
+});

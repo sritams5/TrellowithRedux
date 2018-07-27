@@ -43,16 +43,6 @@ function createListKey(event) {
   return true;
 }
 
-function render() {
-  // console.log('In nav controller ');
-  const state = store.getState();
-  if (state.selectedBoardId >= 0) {
-    // console.log(state.boards[state.selectedBoardId]);
-    nav.showNavForBoardDetails(state.boards[state.selectedBoardId].name);
-  } else {
-    nav.showNavForBoardList();
-  }
-}
 
 nav.showNavForBoardList();
 
@@ -62,4 +52,11 @@ $('#trelloNavBar').on('click', '#createListBtn', createList);
 $('#trelloNavBar').on('keydown', '#createListInput', createListKey);
 $('#trelloNavBar').on('click', '#myTrelloLogo', showBoardList);
 
-store.subscribe(render);
+store.subscribe(()=>{
+  const state = store.getState();
+  if (state.selectedBoardId >= 0) {
+    nav.showNavForBoardDetails(state.boards[state.selectedBoardId].name);
+  } else {
+    nav.showNavForBoardList();
+  }
+});

@@ -4,19 +4,16 @@ import store from './state';
 function loadBoards() {
   $.ajax('http://localhost:3000/boards/1',
     {
-      dataType: 'json', // type of response data
-      timeout: 500, // timeout milliseconds
-      success(data) { // success callback function
-        // console.log('got response from ajax');
-        // console.log(data);
+      dataType: 'json',
+      timeout: 500,
+      success(data) {
         const boards = JSON.parse(data.data);
-        // console.log(boards);
         store.dispatch({
           type: 'LOAD_DATA',
           data: boards,
         });
       },
-      error(jqXhr) { // error callback
+      error(jqXhr) { 
         if (jqXhr.status === 404) {
           store.dispatch({
             type: 'LOAD_DATA',
@@ -29,19 +26,17 @@ function loadBoards() {
 
 function saveBoardsData(boards) {
   $.ajax('http://localhost:3000/boards/', {
-    type: 'POST', // http method
+    type: 'POST',
     async: false,
-    data: { data: JSON.stringify(boards) }, // data to submit
+    data: { data: JSON.stringify(boards) },
   });
 }
 function saveBoards(boards) {
   $.ajax('http://localhost:3000/boards/1', {
-    type: 'DELETE', // http method
+    type: 'DELETE',
     async: false,
-    data: JSON.stringify(boards), // data to submit
+    data: JSON.stringify(boards),
     success() {
-      // console.log('Data deleted : ');
-      // console.log(data);
       saveBoardsData(boards);
     },
     error(jqXhr) {

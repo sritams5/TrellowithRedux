@@ -82,8 +82,6 @@ class ListBox {
     form.classList.remove('d-none');
     const formInput = this.parent.querySelector(`div[list-id="${listId}"].card-header input`);
     formInput.focus();
-    // console.log(a);
-    // console.log(form);
   }
 
   hideListEditForm(listId) {
@@ -94,7 +92,6 @@ class ListBox {
   }
 
   showAddCards(listId) {
-    // console.log('In list view showAddCards');
     const a = this.parent.querySelector(`div[list-id="${listId}"].card-footer a`);
     a.classList.add('d-none');
     const form = this.parent.querySelector(`div[list-id="${listId}"].card-footer form`);
@@ -120,12 +117,9 @@ class ListBox {
     form.classList.remove('d-none');
     const formInput = this.parent.querySelector(`li[list-id="${listId}"][card-id="${cardId}"].card-detail input`);
     formInput.focus();
-    // console.log(a);
-    // console.log(form);
   }
 
   hideEditCard(listId, cardId) {
-    // console.log('In list view hideEditCard');
     const a = this.parent.querySelector(`li[list-id="${listId}"][card-id="${cardId}"].card-detail p`);
     a.classList.remove('d-none');
     const form = this.parent.querySelector(`li[list-id="${listId}"][card-id="${cardId}"].card-detail form`);

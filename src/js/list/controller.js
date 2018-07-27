@@ -8,16 +8,12 @@ const sortable = require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/disable-selection');
 
 function showEditCard(event) {
-  // console.log('In showEditCard');
-  // console.log(event);
   const listId = event.target.getAttribute('list-id');
   const cardId = event.target.getAttribute('card-id');
   listBox.showEditCard(listId, cardId);
 }
 
 function hideEditCard(event) {
-  // console.log('In hideEditCard');
-  // console.log(event);
   const listId = event.target.getAttribute('list-id');
   const cardId = event.target.getAttribute('card-id');
   listBox.hideEditCard(listId, cardId);
@@ -25,7 +21,6 @@ function hideEditCard(event) {
 function updateCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    // console.log('in controller updateCard enter');
     const listId = event.target.getAttribute('list-id');
     const cardId = event.target.getAttribute('card-id');
     store.dispatch({
@@ -43,8 +38,6 @@ function updateCard(event) {
   return true;
 }
 function deleteCard(event) {
-  // console.log('In delete card');
-  // console.log(event);
   const listId = event.target.getAttribute('list-id');
   const cardId = event.target.getAttribute('card-id');
   store.dispatch({
@@ -56,7 +49,6 @@ function deleteCard(event) {
 function addNewCard(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    // console.log('in controller addNewCard enter');
     store.dispatch({
       type: 'ADD_CARD',
       name: event.target.value,
@@ -78,9 +70,7 @@ function hideAddCards(event) {
 }
 
 function updateListDetails(event) {
-  // console.log(event.target.value);
   if (event.keyCode === 13) {
-    // console.log('in controller updateListDetails enter');
     event.preventDefault();
     store.dispatch({
       type: 'UPDT_LIST',
@@ -89,24 +79,18 @@ function updateListDetails(event) {
     });
     return false;
   } if (event.keyCode === 27) {
-    // console.log('in controller updateListDetails escape');
     listBox.hideListEditForm(event.target.getAttribute('list-id'));
   }
 
   return true;
 }
 function hideListEdit(event) {
-  // console.log('in controller hideListEdit');
   listBox.hideListEditForm(event.target.getAttribute('list-id'));
 }
 function showListEdit(event) {
-  // console.log('controller - showListEdit');
-  // console.log(event);
   listBox.showListEditForm(event.target.getAttribute('list-id'));
 }
 function deleteList(event) {
-  // console.log('controller - deleteList(event)');
-  // console.log(event);
   store.dispatch({
     type: 'DEL_LIST',
     listId: event.target.getAttribute('list-id'),
@@ -116,17 +100,12 @@ function makeSortable() {
   $('#boardDetails').sortable({
     handle: '.card-header',
     update() {
-      // console.log('boardDetails list update event');
-      // console.log(event);
-      // console.log(this);
       const newOrder = [];
       const lis = this.getElementsByClassName('m_listBox');
       for (let i = 0; i < lis.length; i += 1) {
-        // console.log(lis[i]);
         newOrder.push((lis[i].getAttribute('list-id')));
       }
 
-      // console.log(newOrder);
 
       store.dispatch({
         type: 'RE_ORDER_LIST',
@@ -137,10 +116,6 @@ function makeSortable() {
   $('.m_card_list').sortable({
     connectWith: 'ul',
     update() {
-      // console.log('card ul body list update event');
-      // console.log(event);
-      // console.log(this);
-
       const tempListId = this.getAttribute('list-id');
 
       const tempCardList = [];
@@ -160,21 +135,7 @@ function makeSortable() {
     },
   });
 }
-function render() {
-  // console.log('In List controller');
-  const state = store.getState();
-  // console.log(state);
-  if (state.selectedBoardId >= 0) {
-    const listItems = state.boards[state.selectedBoardId].lists;
-    listBox.showLists(listItems);
-    makeSortable();
-    if (state.selectedListId) {
-      listBox.showAddCards(state.selectedListId);
-    }
-  } else {
-    listBox.hideLists();
-  }
-}
+
 
 $('#boardDetails').on('click', '.listEditIcon', showListEdit);
 $('#boardDetails').on('click', '.listDeleteIcon', deleteList);
@@ -190,4 +151,16 @@ $('#boardDetails').on('focusout', 'input.cardInput', hideEditCard);
 $('#boardDetails').on('click', '.cardDeleteIcon', deleteCard);
 $('#boardDetails').on('keydown', 'input.cardInput', updateCard);
 
-store.subscribe(render);
+store.subscribe(()=>{
+  const state = store.getState();
+  if (state.selectedBoardId >= 0) {
+    const listItems = state.boards[state.selectedBoardId].lists;
+    listBox.showLists(listItems);
+    makeSortable();
+    if (state.selectedListId) {
+      listBox.showAddCards(state.selectedListId);
+    }
+  } else {
+    listBox.hideLists();
+  }
+});

@@ -46,7 +46,6 @@ class Boards {
     </div>`);
   }
   showBoards(boards) {
-    // console.log('In boards view');
     this.parent.innerHTML = '';
     boards.forEach((board, index) => {
       if(isOdd(parseInt(index)+2)){
@@ -63,27 +62,19 @@ class Boards {
   }
 
   showBoardEditForm(boardId) {
-    // console.log('I am inside show Board Edit Form');
-    // console.log(boardId);
     const a = this.parent.querySelector(`div[board-id="${boardId}"].card-body a`);
     a.classList.add('d-none');
     const form = this.parent.querySelector(`div[board-id="${boardId}"].card-body form`);
     form.classList.remove('d-none');
     const formInput = this.parent.querySelector(`div[board-id="${boardId}"].card-body input`);
     formInput.focus();
-    // console.log(a);
-    // console.log(form);
   }
 
   hideBoardEditForm(boardId) {
-    // console.log('I am inside hide Board Edit Form');
-    // console.log(boardId);
     const a = this.parent.querySelector(`div[board-id="${boardId}"].card-body a`);
     a.classList.remove('d-none');
     const form = this.parent.querySelector(`div[board-id="${boardId}"].card-body form`);
     form.classList.add('d-none');
-    // console.log(a);
-    // console.log(form);
   }
 }
 function isOdd(num) { return num % 2;}

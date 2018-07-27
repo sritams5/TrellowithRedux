@@ -1,5 +1,5 @@
 {
-  "name": "exercise_4",
+  "name": "TrellowithRedux",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:prod": "webpack --host 0.0.0.0",
     "build": "webpack-dev-server --host 0.0.0.0",
-    "start": "webpack-dev-server --host 0.0.0.0 --watch-poll ",
+    "serve": "webpack-dev-server --host 0.0.0.0 --watch-poll ",
     "lint": "eslint ./src/js/**/*.js --fix"
   },
   "keywords": [],

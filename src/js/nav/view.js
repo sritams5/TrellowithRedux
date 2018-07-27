@@ -83,5 +83,4 @@ class NavHeader {
 }
 
 const nav = new NavHeader();
-// module.exports = nav
 export default nav;
